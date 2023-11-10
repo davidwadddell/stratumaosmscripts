@@ -1,0 +1,84 @@
+######################### Tooling VM setup    
+# pulled from bash history maybe somewhat incomplete
+
+# runc and containerd
+   47  sudo tar Cxzvf /usr/local containerd-1.7.7-linux-amd64.tar.gz
+   49  sudo install -m 755 runc.amd64 /usr/local/sbin/runc
+   50  sudo mkdir -p /opt/cni/bin
+   51  sudo tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.1.1.tgz
+   52  sudo mkdir /etc/containerd
+   53  containerd config default | sudo tee /etc/containerd/config.toml
+   54  sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+   56  mv containerd.service  /etc/systemd/system/.
+   57  sudo systemctl daemon-reload
+   58  sudo systemctl status containerd
+   62  sudo systemctl daemon-reload
+   63  systemctl start containerd
+   64  sudo systemctl status containerd
+   68  ctr images
+
+# kubectl 
+     curl -LO https://dl.k8s.io/release/v1.28.3/bin/linux/amd64/kubectl 
+     mv kubectl /bin
+     kubectl
+     chmod +x /usr/bin/kubectl
+     kubectl
+
+# k6  (tar file was copied to box) 
+   86  ctr image mount --help
+   87  ctr image import enea-k6-latest.tar
+   88  ctr images ls
+  101  ctr run -0-help
+  102  ctr run stratum.owmobility.com/stratumcnf/enea-k6:latest k6 sleep infinity &
+  105  ctr c ps
+  112  ctr task exec -t --exec-id testing k6 bash
+  136  mv config ./kube/.
+  137  mv config .kube/.
+  138  kubectl get pods
+  139  kubectl get pods  -A
+
+# jq - not sure how i fetched it  
+ cp ~/jq /usr/bin
+
+# helper scripts for init and smoke 
+
+t@eneatoolingvm:~# cd pytest/
+root@eneatoolingvm:~/pytest# ls
+properties.env.sh  properties.env.sh.tmpl  run_init.sh  run_smoke.sh  run_step.sh
+root@eneatoolingvm:~/pytest# cat run_init.sh
+#!/bin/bash
+set -x
+cd /opt/opwv/sdmCD/4.1/tests
+export test_directory=`pwd`
+source properties.env.sh
+
+PYTHONUNBUFFERED=1 python3.6 -m pytest -m "not devonly" --alluredir=${test_directory}/report --junitxml=/tmp/junit.xml DocStore/test_a_stratum_docstore_initialization.py -vls -vv | tee /proc/1/fd/1
+root@eneatoolingvm:~/pytest#
+root@eneatoolingvm:~/pytest# cat run_smoke.sh
+#!/bin/bash
+set -x
+cd /opt/opwv/sdmCD/4.1/tests
+export test_directory=`pwd`
+source properties.env.sh
+
+PYTHONUNBUFFERED=1 python3.6 -m pytest -m "not devonly" --alluredir=${test_directory}/report --junitxml=/tmp/junit.xml  DocStore/DocStoreSmokeSet/test_stratum_docstore.py  -vls -vv | tee /proc/1/fd/1
+root@eneatoolingvm:~/pytest#
+root@eneatoolingvm:~/pytest# cat run_step.sh
+
+set -e
+ILD_IP=$(kubectl get svc site1-enea-ild-0 -o json | jq -r .status.loadBalancer.ingress[].ip)
+sed s#__SITE1_ILD_IP__#${ILD_IP}#g properties.env.sh.tmpl > properties.env.sh
+kubectl cp properties.env.sh site1-stratum-pytest-client-0:/opt/opwv/sdmCD/4.1/tests/properties.env.sh
+
+
+
+if [ "$1" == "init" ] ; then
+   kubectl cp run_init.sh site1-stratum-pytest-client-0:/tmp/run_init.sh
+   kubectl exec   site1-stratum-pytest-client-0 -- /tmp/run_init.sh
+fi
+
+if [ "$1" == "smoke" ] ; then
+   kubectl cp run_smoke.sh site1-stratum-pytest-client-0:/tmp/run_smoke.sh
+   kubectl exec   site1-stratum-pytest-client-0 -- /tmp/run_smoke.sh
+fi
+
