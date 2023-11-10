@@ -1,7 +1,7 @@
 ######################### Tooling VM setup    
 # pulled from bash history maybe somewhat incomplete
 
-# runc and containerd
+# runc and containerd  https://www.howtoforge.com/how-to-install-containerd-container-runtime-on-ubuntu-22-04/
    47  sudo tar Cxzvf /usr/local containerd-1.7.7-linux-amd64.tar.gz
    49  sudo install -m 755 runc.amd64 /usr/local/sbin/runc
    50  sudo mkdir -p /opt/cni/bin
