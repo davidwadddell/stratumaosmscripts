@@ -1,0 +1,225 @@
+Wed Dec 13 12:52:13 UTC 2023
+force killing pod/site1-region1-stratum-adm-0
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-adm-0" force deleted
+waiting for pod/site1-region1-stratum-adm-0 to be ready
+pod/site1-region1-stratum-adm-0 condition met
+real 62.13
+user 0.08
+sys 0.00
+Wed Dec 13 12:53:15 UTC 2023
+force killing pod/site1-region1-stratum-adm-1
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-adm-1" force deleted
+waiting for pod/site1-region1-stratum-adm-1 to be ready
+pod/site1-region1-stratum-adm-1 condition met
+real 62.14
+user 0.08
+sys 0.01
+Wed Dec 13 12:54:17 UTC 2023
+force killing pod/site1-region1-stratum-adm-2
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-adm-2" force deleted
+waiting for pod/site1-region1-stratum-adm-2 to be ready
+pod/site1-region1-stratum-adm-2 condition met
+real 62.02
+user 0.08
+sys 0.01
+Wed Dec 13 12:55:19 UTC 2023
+force killing pod/site1-region1-stratum-adm-3
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-adm-3" force deleted
+waiting for pod/site1-region1-stratum-adm-3 to be ready
+pod/site1-region1-stratum-adm-3 condition met
+real 62.02
+user 0.07
+sys 0.01
+Wed Dec 13 12:56:21 UTC 2023
+force killing pod/site1-region1-stratum-csm-0
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-csm-0" force deleted
+waiting for pod/site1-region1-stratum-csm-0 to be ready
+pod/site1-region1-stratum-csm-0 condition met
+real 51.38
+user 0.08
+sys 0.01
+Wed Dec 13 12:57:13 UTC 2023
+force killing pod/site1-region1-stratum-csm-1
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-csm-1" force deleted
+waiting for pod/site1-region1-stratum-csm-1 to be ready
+pod/site1-region1-stratum-csm-1 condition met
+real 31.09
+user 0.08
+sys 0.00
+Wed Dec 13 12:57:44 UTC 2023
+force killing pod/site1-region1-stratum-csm-2
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-csm-2" force deleted
+waiting for pod/site1-region1-stratum-csm-2 to be ready
+pod/site1-region1-stratum-csm-2 condition met
+real 32.57
+user 0.08
+sys 0.01
+Wed Dec 13 12:58:16 UTC 2023
+force killing pod/site1-region1-stratum-csm-3
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-csm-3" force deleted
+waiting for pod/site1-region1-stratum-csm-3 to be ready
+pod/site1-region1-stratum-csm-3 condition met
+real 51.07
+user 0.07
+sys 0.01
+Wed Dec 13 12:59:08 UTC 2023
+force killing pod/site1-region1-stratum-ild-0
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-ild-0" force deleted
+waiting for pod/site1-region1-stratum-ild-0 to be ready
+pod/site1-region1-stratum-ild-0 condition met
+real 61.09
+user 0.07
+sys 0.02
+Wed Dec 13 13:00:09 UTC 2023
+force killing pod/site1-region1-stratum-ild-1
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-ild-1" force deleted
+waiting for pod/site1-region1-stratum-ild-1 to be ready
+pod/site1-region1-stratum-ild-1 condition met
+real 31.40
+user 0.08
+sys 0.00
+Wed Dec 13 13:00:40 UTC 2023
+force killing pod/site1-region1-stratum-ild-2
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-ild-2" force deleted
+waiting for pod/site1-region1-stratum-ild-2 to be ready
+pod/site1-region1-stratum-ild-2 condition met
+real 51.43
+user 0.07
+sys 0.01
+Wed Dec 13 13:01:32 UTC 2023
+force killing pod/site1-region1-stratum-ild-3
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region1-stratum-ild-3" force deleted
+waiting for pod/site1-region1-stratum-ild-3 to be ready
+pod/site1-region1-stratum-ild-3 condition met
+real 51.10
+user 0.08
+sys 0.01
+Wed Dec 13 13:02:23 UTC 2023
+force killing pod/site1-region2-stratum-adm-0
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-adm-0" force deleted
+waiting for pod/site1-region2-stratum-adm-0 to be ready
+pod/site1-region2-stratum-adm-0 condition met
+real 42.11
+user 0.09
+sys 0.00
+Wed Dec 13 13:03:05 UTC 2023
+force killing pod/site1-region2-stratum-adm-1
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-adm-1" force deleted
+waiting for pod/site1-region2-stratum-adm-1 to be ready
+pod/site1-region2-stratum-adm-1 condition met
+real 62.64
+user 0.09
+sys 0.00
+Wed Dec 13 13:04:08 UTC 2023
+force killing pod/site1-region2-stratum-adm-2
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-adm-2" force deleted
+waiting for pod/site1-region2-stratum-adm-2 to be ready
+pod/site1-region2-stratum-adm-2 condition met
+real 62.60
+user 0.09
+sys 0.00
+Wed Dec 13 13:05:10 UTC 2023
+force killing pod/site1-region2-stratum-adm-3
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-adm-3" force deleted
+waiting for pod/site1-region2-stratum-adm-3 to be ready
+pod/site1-region2-stratum-adm-3 condition met
+real 42.72
+user 0.07
+sys 0.01
+Wed Dec 13 13:05:53 UTC 2023
+force killing pod/site1-region2-stratum-csm-0
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-csm-0" force deleted
+waiting for pod/site1-region2-stratum-csm-0 to be ready
+pod/site1-region2-stratum-csm-0 condition met
+real 31.07
+user 0.08
+sys 0.01
+Wed Dec 13 13:06:24 UTC 2023
+force killing pod/site1-region2-stratum-csm-1
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-csm-1" force deleted
+waiting for pod/site1-region2-stratum-csm-1 to be ready
+pod/site1-region2-stratum-csm-1 condition met
+real 31.09
+user 0.08
+sys 0.01
+Wed Dec 13 13:06:56 UTC 2023
+force killing pod/site1-region2-stratum-csm-2
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-csm-2" force deleted
+waiting for pod/site1-region2-stratum-csm-2 to be ready
+pod/site1-region2-stratum-csm-2 condition met
+real 51.07
+user 0.09
+sys 0.00
+Wed Dec 13 13:07:47 UTC 2023
+force killing pod/site1-region2-stratum-csm-3
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-csm-3" force deleted
+waiting for pod/site1-region2-stratum-csm-3 to be ready
+pod/site1-region2-stratum-csm-3 condition met
+real 31.07
+user 0.06
+sys 0.02
+Wed Dec 13 13:08:18 UTC 2023
+force killing pod/site1-region2-stratum-ild-0
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-ild-0" force deleted
+waiting for pod/site1-region2-stratum-ild-0 to be ready
+pod/site1-region2-stratum-ild-0 condition met
+real 61.08
+user 0.07
+sys 0.01
+Wed Dec 13 13:09:19 UTC 2023
+force killing pod/site1-region2-stratum-ild-1
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-ild-1" force deleted
+waiting for pod/site1-region2-stratum-ild-1 to be ready
+pod/site1-region2-stratum-ild-1 condition met
+real 61.11
+user 0.06
+sys 0.03
+Wed Dec 13 13:10:20 UTC 2023
+force killing pod/site1-region2-stratum-ild-2
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-ild-2" force deleted
+waiting for pod/site1-region2-stratum-ild-2 to be ready
+pod/site1-region2-stratum-ild-2 condition met
+real 41.40
+user 0.08
+sys 0.00
+Wed Dec 13 13:11:02 UTC 2023
+force killing pod/site1-region2-stratum-ild-3
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-region2-stratum-ild-3" force deleted
+waiting for pod/site1-region2-stratum-ild-3 to be ready
+pod/site1-region2-stratum-ild-3 condition met
+real 51.09
+user 0.07
+sys 0.01
+Wed Dec 13 13:11:53 UTC 2023
+force killing pod/site1-stratum-pytest-client-0
+Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
+pod "site1-stratum-pytest-client-0" force deleted
+waiting for pod/site1-stratum-pytest-client-0 to be ready
+pod/site1-stratum-pytest-client-0 condition met
+real 20.43
+user 0.07
+sys 0.00
