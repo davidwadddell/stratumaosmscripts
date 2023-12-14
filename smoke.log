@@ -1,0 +1,862 @@
++ cd /opt/opwv/sdmCD/4.1/tests
+++ pwd
++ export test_directory=/opt/opwv/sdmCD/4.1/tests
++ test_directory=/opt/opwv/sdmCD/4.1/tests
++ source properties.env.sh
+++ echo 'Exporting environment variables for use in properties.py file'
+++ export ems_rw_ip=ems01
+++ ems_rw_ip=ems01
+++ export ems_ro_ip=ems02
+++ ems_ro_ip=ems02
+++ export notification_fe_ip_list=
+++ notification_fe_ip_list=
+++ export build_user=opwv
+++ build_user=opwv
+++ export loadgen_expected_rfr=0
+++ loadgen_expected_rfr=0
+++ export loadgen_session_max_resp_time=0
+++ loadgen_session_max_resp_time=0
+++ export loadgen_vnfstate_max_resp_time=0
+++ loadgen_vnfstate_max_resp_time=0
+++ export loadgen_subscriber_max_resp_time=0
+++ loadgen_subscriber_max_resp_time=0
+++ export loadgen_config_max_resp_time=0
+++ loadgen_config_max_resp_time=0
+++ export ems_product_version=4.1
+++ ems_product_version=4.1
+++ export sudo_user=opwv
+++ sudo_user=opwv
+++ export ssh_user=root
+++ ssh_user=root
+++ export ssh_key_file=/spare/id_rsa
+++ ssh_key_file=/spare/id_rsa
+++ export region1_ssh_key_file=/spare/id_rsa
+++ region1_ssh_key_file=/spare/id_rsa
+++ export ems_username=cli
+++ ems_username=cli
+++ export 'ems_password=*F2Uasf2HDeRiZY^'
+++ ems_password='*F2Uasf2HDeRiZY^'
+++ export linux_username=root
+++ linux_username=root
+++ export cloud_ssh_user=cloud-user
+++ cloud_ssh_user=cloud-user
+++ export sudo_user=opwv
+++ sudo_user=opwv
+++ export linux_password=secret
+++ linux_password=secret
+++ export container_install=True
+++ container_install=True
+++ export path_to_tools=/opt/opwv/sdmCD/4.1/ldif/tools/Stratum
+++ path_to_tools=/opt/opwv/sdmCD/4.1/ldif/tools/Stratum
+++ export docstore_bind_dn=cn=doc.test
+++ docstore_bind_dn=cn=doc.test
+++ export docstore_bind_passwd=docsecret
+++ docstore_bind_passwd=docsecret
+++ export docstore_stratum_bind_dn=cn=doc.stratumtest
+++ docstore_stratum_bind_dn=cn=doc.stratumtest
+++ export docstore_stratum_bind_passwd=docsecret
+++ docstore_stratum_bind_passwd=docsecret
+++ export docstore_schema_name=docstore
+++ docstore_schema_name=docstore
+++ export docstore_stratum_schema_name=docstore-stratum-test
+++ docstore_stratum_schema_name=docstore-stratum-test
+++ export docstore_schema_version=4712
+++ docstore_schema_version=4712
+++ export docstore_kpi_bind_dn=cn=doc.test_kpi
+++ docstore_kpi_bind_dn=cn=doc.test_kpi
+++ export docstore_kpi_bind_passwd=docsecret
+++ docstore_kpi_bind_passwd=docsecret
+++ export docstore_kpi_indexing_bind_dn=cn=doc.test_kpi_indexing
+++ docstore_kpi_indexing_bind_dn=cn=doc.test_kpi_indexing
+++ export docstore_kpi_indexing_bind_passwd=docsecret
+++ docstore_kpi_indexing_bind_passwd=docsecret
+++ export docstore_kpi_schema_name=docstore-kpi-test
+++ docstore_kpi_schema_name=docstore-kpi-test
+++ export docstore_replication_schema_name=docstore-replication-profile-test
+++ docstore_replication_schema_name=docstore-replication-profile-test
+++ export docstore_admin_kpi_bind_dn=cn=doc.test_kpi_admin
+++ docstore_admin_kpi_bind_dn=cn=doc.test_kpi_admin
+++ export docstore_admin_kpi_bind_passwd=docsecret
+++ docstore_admin_kpi_bind_passwd=docsecret
+++ export docstore_kpi_backup_dn=cn=doc.test_kpi_backup
+++ docstore_kpi_backup_dn=cn=doc.test_kpi_backup
+++ export docstore_kpi_backup_passwd=docsecret
+++ docstore_kpi_backup_passwd=docsecret
+++ export docstore_kpi_backup_schema_name=docstore-kpi-test-backup
+++ docstore_kpi_backup_schema_name=docstore-kpi-test-backup
+++ export docstore_data_repair_schema_name=docstore-data-repair-test
+++ docstore_data_repair_schema_name=docstore-data-repair-test
+++ export docstore_kpi_ntfncore_bind_dn=cn=doc.test_kpi_ntfn_core
+++ docstore_kpi_ntfncore_bind_dn=cn=doc.test_kpi_ntfn_core
+++ export docstore_kpi_ntfncore_bind_passwd=docsecret
+++ docstore_kpi_ntfncore_bind_passwd=docsecret
+++ export docstore_kpi_ntfnview_bind_dn=cn=doc.test_kpi_ntfn_view
+++ docstore_kpi_ntfnview_bind_dn=cn=doc.test_kpi_ntfn_view
+++ export docstore_kpi_ntfnview_bind_passwd=docsecret
+++ docstore_kpi_ntfnview_bind_passwd=docsecret
+++ export docstore_kpi_ntfn_view_schema_name=docstore-kpi-test-notifications-view.yaml
+++ docstore_kpi_ntfn_view_schema_name=docstore-kpi-test-notifications-view.yaml
+++ export ldap_port=389
+++ ldap_port=389
+++ export secure_sbi_port=443
+++ secure_sbi_port=443
+++ export sbi_port=443
+++ sbi_port=443
+++ export secure_udsf_port=443
+++ secure_udsf_port=443
+++ export mysql_db_username=root
+++ mysql_db_username=root
+++ export mysql_db_password=ch4ngeme
+++ mysql_db_password=ch4ngeme
+++ export mysql_db_name=ordb
+++ mysql_db_name=ordb
+++ export r1_lba_vip_ip=108.145.48.99
+++ r1_lba_vip_ip=108.145.48.99
+++ export lba_vip_list=108.145.48.99
+++ lba_vip_list=108.145.48.99
+++ export r11_lba_vip=108.145.48.99
+++ r11_lba_vip=108.145.48.99
+++ export r12_lba_vip=192.168.120.146
+++ r12_lba_vip=192.168.120.146
+++ export r21_lba_vip=192.168.120.151
+++ r21_lba_vip=192.168.120.151
+++ export r22_lba_vip=192.168.120.156
+++ r22_lba_vip=192.168.120.156
+++ export lw1_pod_vip=192.168.120.160
+++ lw1_pod_vip=192.168.120.160
+++ export lw2_pod_vip=192.168.120.166
+++ lw2_pod_vip=192.168.120.166
+++ export le1_pod_vip=192.168.120.170
+++ le1_pod_vip=192.168.120.170
+++ export le2_pod_vip=192.168.120.176
+++ le2_pod_vip=192.168.120.176
+++ export test_ldap_bind_dn=cn=Stratum-Test-User,ou=Users,ou=Administration,o=EneaOrg
+++ test_ldap_bind_dn=cn=Stratum-Test-User,ou=Users,ou=Administration,o=EneaOrg
+++ export test_ldap_bind_password=stratumtest
+++ test_ldap_bind_password=stratumtest
+++ export ldap_bind_dn=cn=Stratum-Test-User,ou=Users,ou=Administration,o=EneaOrg
+++ ldap_bind_dn=cn=Stratum-Test-User,ou=Users,ou=Administration,o=EneaOrg
+++ export ldap_password=stratumtest
+++ ldap_password=stratumtest
+++ export admin_bind_dn=cn=Stratum-Admin-Schema,ou=Users,ou=Administration,o=EneaOrg
+++ admin_bind_dn=cn=Stratum-Admin-Schema,ou=Users,ou=Administration,o=EneaOrg
+++ export admin_bind_passwd=passwd
+++ admin_bind_passwd=passwd
+++ export indexing_bind_dn=cn=doc.test_kpi_indexing
+++ indexing_bind_dn=cn=doc.test_kpi_indexing
+++ export indexing_bind_passwd=docsecret
+++ indexing_bind_passwd=docsecret
+++ export indexing_virtual_user_bind_dn=cn=Indexing-Test-Virtual-User,ou=Users,ou=Administration,o=EneaOrg
+++ indexing_virtual_user_bind_dn=cn=Indexing-Test-Virtual-User,ou=Users,ou=Administration,o=EneaOrg
+++ export indexing_virtual_user_bind_passwd=stratumtest
+++ indexing_virtual_user_bind_passwd=stratumtest
+++ export virtual_user_1_bind_dn=cn=Stratum-Test-Virtual-1-User,ou=Users,ou=Administration,o=EneaOrg
+++ virtual_user_1_bind_dn=cn=Stratum-Test-Virtual-1-User,ou=Users,ou=Administration,o=EneaOrg
+++ export virtual_user_2_bind_dn=cn=Stratum-Test-Virtual-2-User,ou=Users,ou=Administration,o=EneaOrg
+++ virtual_user_2_bind_dn=cn=Stratum-Test-Virtual-2-User,ou=Users,ou=Administration,o=EneaOrg
+++ export virtual_user_bind_passwd=stratumtest
+++ virtual_user_bind_passwd=stratumtest
+++ export num_of_followers=2
+++ num_of_followers=2
+++ export num_of_hashslots=128
+++ num_of_hashslots=128
+++ export num_of_replicas=2
+++ num_of_replicas=2
+Exporting environment variables for use in properties.py file
+++ export is_multi_region=false
+++ is_multi_region=false
+++ export enable_yaml_schema=True
+++ enable_yaml_schema=True
++++ hostname
+++ export nbi_ip=site1-stratum-pytest-client-0
+++ nbi_ip=site1-stratum-pytest-client-0
+++ export nbi_port=30000
+++ nbi_port=30000
++++ getent hosts ems01
++++ awk '{ print $1 }'
+++ export ems_primary_host_internal=10.96.8.29
+++ ems_primary_host_internal=10.96.8.29
+++ echo ems_primary_host_internal=10.96.8.29
+++ export stratum_product_version=4
+++ stratum_product_version=4
+++ echo stratum_product_version=4
+++ export install_type=site
+++ install_type=site
+++ echo install_type=site
+ems_primary_host_internal=10.96.8.29
+stratum_product_version=4
+install_type=site
++++ hostname
+++ export sbi_ntfn_ip=site1-stratum-pytest-client-0
+++ sbi_ntfn_ip=site1-stratum-pytest-client-0
+++ export sbi_ntfn_port=8082
+++ sbi_ntfn_port=8082
+++ export container_host=10.20.163.15
+++ container_host=10.20.163.15
+++ export prometheus_port=9090
+++ prometheus_port=9090
+++ export config_update_wait=20
+++ config_update_wait=20
+++ echo 'Export completed'
+Export completed
++ PYTHONUNBUFFERED=1
++ python3.6 -m pytest -m 'not devonly' --alluredir=/opt/opwv/sdmCD/4.1/tests/report --junitxml=/tmp/junit.xml DocStore/DocStoreSmokeSet/test_stratum_docstore.py -vls -vv
++ tee /proc/1/fd/1
+site1region2
+site1region1
+Core
+============================= test session starts ==============================
+platform linux -- Python 3.6.8, pytest-7.0.1, pluggy-1.0.0 -- /usr/bin/python3.6
+cachedir: .pytest_cache
+rootdir: /opt/opwv/sdmCD/4.1/tests, configfile: pytest.ini
+plugins: excel-1.6.0, ldap-0.0.1, yaml-1.2.1, timeouts-1.2.1, allure-pytest-2.13.2, timeout-2.1.0, anyio-3.6.2, rerunfailures-10.3, xdist-3.0.2, instafail-0.4.2, testrail-2.9.0
+setup timeout: 0.0s, execution timeout: 0.0s, teardown timeout: 0.0s
+collecting ... collected 27 items
+
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_pre_run_core_checker PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_setup /opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'copyDoc opwvconfig pytestAutomation'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'copyDoc opwvconfig pytestAutomation'"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'setOnlineDoc pytestAutomation'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'setOnlineDoc pytestAutomation'"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'copyDoc opwvconfig pytestAutomation'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'copyDoc opwvconfig pytestAutomation'"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'setOnlineDoc pytestAutomation'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'setOnlineDoc pytestAutomation'"
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_check_bind_reject_from_docstore Binding user cn=doc.test
+LDAP-Bind failed: code:49 message:'Invalid credentials provided'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_check_bind_reject_for_missing_schema Binding user cn=doc.testMissingSchema
+LDAP-Bind failed: code:53 message:'Schema not available: docstoreWRONG:4712'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_check_bind_pass_for_schema_name_without_version Binding user cn=doc.testSchemaBroken
+LDAP-Bind-Res: code:0 message:'Welcome to Stratum using schema: docstore[0000018C6898D0D200CABD010103F600]'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_check_bind_reject_for_not_enabled_client Binding user cn=doc.testNotEnabled
+LDAP-Bind failed: code:49 message:'Client not configured'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_check_bind_reject_for_unconfigured_client Binding user cn=doc.DoesNotExist
+LDAP-Bind failed: code:49 message:'Client not configured'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_check_bind_success Binding user cn=doc.test
+LDAP-Bind-Res: code:0 message:'Welcome to Stratum using schema: docstore:4712[0000018C6898D0E000E01A010103FE02]'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_add_entry_exists Binding user cn=doc.test
+LDAP-Add: person sn=subscriber123,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber123
+    sn: subscriber123
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 123456789123
+    msisdn: 987654321123
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_123
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.test
+LDAP-Add: person sn=subscriber123,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber123
+    sn: subscriber123
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 123456789123
+    msisdn: 987654321123
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_123
+LDAP-Add-Res: code:68 message:'object already exists'
+    result: 68
+    description: entryAlreadyExists
+    dn: 
+    message: object already exists
+    referrals: None
+    type: addResponse
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_search_other_index Binding user cn=doc.testNoTableScan
+LDAP-Add: person sn=subscriber125,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber125
+    sn: subscriber125
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 125
+    telephonenumber: 49125
+    msisdn: 777654321125
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_125
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(sn=subscriber125) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber125,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber125']
+    cn: ['subscriber125']
+    telephonenumber: ['49125']
+    description: ['This is DocStore Test User']
+    imsi: ['125']
+    msisdn: ['777654321125']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_125']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(cn=subscriber125) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber125,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber125']
+    cn: ['subscriber125']
+    telephonenumber: ['49125']
+    description: ['This is DocStore Test User']
+    imsi: ['125']
+    msisdn: ['777654321125']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_125']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(cn=subscriber125) attributes:['msisdn', 'imsi']
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber125,ou=subscribers,o=examplenatco,dc=enea.com
+    msisdn: ['777654321125']
+    imsi: ['125']
+LDAP-Search-Res: code:0 message:''
+MA {'imsi': [False], 'msisdn': [False]}
+All matched successfully
+MA {'street': [False], 'preferredlanguage': [False]}
+All matched successfully
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(imsi=125) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber125,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber125']
+    cn: ['subscriber125']
+    telephonenumber: ['49125']
+    description: ['This is DocStore Test User']
+    imsi: ['125']
+    msisdn: ['777654321125']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_125']
+LDAP-Search-Res: code:0 message:''
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_ldapmodify_operation Binding user cn=doc.test
+LDAP-Add: person sn=subscriber126,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber126
+    sn: subscriber126
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 126
+    telephonenumber: 49126
+    msisdn: 777654321126
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_126
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.test
+LDAP-Search: sn=subscriber126,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber126,ou=subscribers,o=examplenatco,dc=enea.com
+    sn: ['subscriber126']
+    objectclass: ['person', 'top']
+    cn: ['subscriber126']
+    telephonenumber: ['49126']
+    description: ['This is DocStore Test User']
+    imsi: ['126']
+    msisdn: ['777654321126']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_126']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+Binding user cn=doc.test
+LDAP-Modify: sn=subscriber126,ou=subscribers,o=examplenatco,dc=enea.com mod:{'street': [('MODIFY_REPLACE', ['street1x'])], 'preferredlanguage': [('MODIFY_REPLACE', ['Englishx'])]}
+LDAP-Modify-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Search: sn=subscriber126,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber126,ou=subscribers,o=examplenatco,dc=enea.com
+    sn: ['subscriber126']
+    objectclass: ['person', 'top']
+    cn: ['subscriber126']
+    telephonenumber: ['49126']
+    description: ['This is DocStore Test User']
+    imsi: ['126']
+    msisdn: ['777654321126']
+    preferredlanguage: ['Englishx']
+    street: ['street1x']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_126']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_index_update_on_ldapmodify Binding user cn=doc.testNoTableScan
+LDAP-Add: person sn=subscriber127,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber127
+    sn: subscriber127
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 127
+    telephonenumber: 49127
+    msisdn: 777654321127
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_127
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(sn=subscriber127) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber127,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber127']
+    cn: ['subscriber127']
+    telephonenumber: ['49127']
+    description: ['This is DocStore Test User']
+    imsi: ['127']
+    msisdn: ['777654321127']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_127']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+Binding user cn=doc.testNoTableScan
+LDAP-Modify: sn=subscriber127,ou=subscribers,o=examplenatco,dc=enea.com mod:{'imsi': [('MODIFY_REPLACE', ['127x'])], 'cn': [('MODIFY_REPLACE', ['subscriber127x'])]}
+LDAP-Modify-Res: code:0 message:''
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(sn=subscriber127) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber127,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber127']
+    cn: ['subscriber127x']
+    telephonenumber: ['49127']
+    description: ['This is DocStore Test User']
+    imsi: ['127x']
+    msisdn: ['777654321127']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_127']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(cn=subscriber127x) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber127,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber127']
+    cn: ['subscriber127x']
+    telephonenumber: ['49127']
+    description: ['This is DocStore Test User']
+    imsi: ['127x']
+    msisdn: ['777654321127']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_127']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(imsi=127x) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber127,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber127']
+    cn: ['subscriber127x']
+    telephonenumber: ['49127']
+    description: ['This is DocStore Test User']
+    imsi: ['127x']
+    msisdn: ['777654321127']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_127']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'telephonenumber': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(cn=subscriber127) attributes:*
+Entries found: 0
+LDAP-Search-Res: code:32 message:'No such Object'
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(imsi=127) attributes:*
+Entries found: 0
+LDAP-Search-Res: code:32 message:'No such Object'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_delete_entry Binding user cn=doc.test
+LDAP-Add: person sn=subscriber124,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber124
+    sn: subscriber124
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 124
+    telephonenumber: 49124
+    msisdn: 987654321124
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_124
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.test
+LDAP-Search: imsi=124,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:imsi=124,ou=subscribers,o=examplenatco,dc=enea.com
+    imsi: ['124']
+    objectclass: ['person', 'top']
+    sn: ['subscriber124']
+    cn: ['subscriber124']
+    telephonenumber: ['49124']
+    description: ['This is DocStore Test User']
+    msisdn: ['987654321124']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_124']
+LDAP-Search-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Delete: cn=subscriber124,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Search: imsi=124,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 0
+LDAP-Search-Res: code:32 message:'No such Object'
+Binding user cn=doc.test
+LDAP-Search: cn=subscriber124,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 0
+LDAP-Search-Res: code:32 message:'No such Object'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_delete_entry_other_index Binding user cn=doc.testNoTableScan
+LDAP-Add: person sn=subscriber124,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber124
+    sn: subscriber124
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 124
+    telephonenumber: 49124
+    msisdn: 987654321124
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_124
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(imsi=124) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber124,ou=subscribers,o=examplenatco,dc=enea.com
+    objectclass: ['person', 'top']
+    sn: ['subscriber124']
+    cn: ['subscriber124']
+    telephonenumber: ['49124']
+    description: ['This is DocStore Test User']
+    imsi: ['124']
+    msisdn: ['987654321124']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_124']
+LDAP-Search-Res: code:0 message:''
+Binding user cn=doc.testNoTableScan
+LDAP-Delete: imsi=124,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(imsi=124) attributes:*
+Entries found: 0
+LDAP-Search-Res: code:32 message:'No such Object'
+Binding user cn=doc.testNoTableScan
+LDAP-Search: ou=subscribers,o=examplenatco,dc=enea.com filter:(cn=subscriber124) attributes:*
+Entries found: 0
+LDAP-Search-Res: code:32 message:'No such Object'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_add_entry Binding user cn=doc.test
+LDAP-Add: person sn=subscriber4711,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber4711
+    sn: subscriber4711
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 1234567894711
+    msisdn: 9876543214711
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_4711
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.test
+LDAP-Search: sn=subscriber4711,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber4711,ou=subscribers,o=examplenatco,dc=enea.com
+    sn: ['subscriber4711']
+    objectclass: ['person', 'top']
+    cn: ['subscriber4711']
+    description: ['This is DocStore Test User']
+    imsi: ['1234567894711']
+    msisdn: ['9876543214711']
+    preferredlanguage: ['English']
+    street: ['street1']
+    subscriberType: ['WELCOME 500']
+    uid: ['uidsubscriber_4711']
+LDAP-Search-Res: code:0 message:''
+MA {'cn': [False], 'sn': [False], 'description': [False], 'preferredlanguage': [False], 'street': [False], 'imsi': [False], 'msisdn': [False], 'subscriberType': [False], 'uid': [False]}
+All matched successfully
+MA {'imsi': [False], 'msisdn': [False, False]}
+All matched successfully
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_delete_not_exists Binding user cn=doc.test
+LDAP-Delete: sn=subscriber7777,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:32 message:'No such Object'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_delete_non_resolvable Binding user cn=doc.test
+LDAP-Delete: xn=subscriber4710,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:32 message:'DN xn=subscriber4710,ou=subscribers,o=examplenatco,dc=enea.com does not map to an entry: xn=subscriber4710 available: sn=<sn>,cn=<cn>,number=<telephonenumber>,imsi=<imsi>,uid=<uid>'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_add_delete_entry Binding user cn=doc.test
+LDAP-Add: person sn=subscriber4713,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber4713
+    sn: subscriber4713
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 1234567894713
+    msisdn: 9876543214713
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_4713
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber4713,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Search: sn=subscriber4713,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 0
+LDAP-Search-Res: code:32 message:'No such Object'
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_add_with_controls_unsupported_non_critical Binding user cn=doc.test
+LDAP-Add: person sn=subscriber4714,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber4714
+    sn: subscriber4714
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 1234567894714
+    msisdn: 9876543214714
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_4714
+LDAP-Add-Res: code:0 message:''
+    result: 0
+    description: success
+    dn: 
+    message: 
+    referrals: None
+    type: addResponse
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_add_with_controls_unsupported_critical Binding user cn=doc.test
+LDAP-Add: person sn=subscriber4714,ou=subscribers,o=examplenatco,dc=enea.com:
+    cn: subscriber4714
+    sn: subscriber4714
+    description: This is DocStore Test User
+    preferredlanguage: English
+    street: street1
+    imsi: 1234567894714
+    msisdn: 9876543214714
+    subscriberType: WELCOME 500
+    uid: uidsubscriber_4714
+LDAP-Add-Res: code:12 message:'Critical control not supported'
+    result: 12
+    description: unavailableCriticalExtension
+    dn: 
+    message: Critical control not supported
+    referrals: None
+    type: addResponse
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_tls_ldap_add [Allure]     cat /opt/opwv/sdmCD/4.1/ldif/tools/Stratum//tls_test/client.crt
+[Allure]     cat /opt/opwv/sdmCD/4.1/ldif/tools/Stratum//tls_test/client.key
+[Allure]     sudo su -c "tcpdump -i any -s 1500 '(tcp[((tcp[12:1] & 0xf0) >> 2)+5:1] = 0x0b) and (tcp[((tcp[12:1] & 0xf0) >> 2):1] = 0x16)' -nnXSs0 -tt > /tmp/tls_capture 2>&1 &"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d pytestAutomation -c 'update Complex//SDMCE/LDAPManager/TLSSettings/Enabled:true'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d pytestAutomation -c 'update Complex//SDMCE/LDAPManager/TLSSettings/Enabled:true'"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d pytestAutomation -c 'getCli Complex//SDMCE/LDAPManager/TLSSettings'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d pytestAutomation -c 'getCli Complex//SDMCE/LDAPManager/TLSSettings'"
+[Allure]     sudo su -c "pkill -9 -f tcpdump"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d pytestAutomation -c 'update Complex//SDMCE/LDAPManager/TLSSettings/Enabled:false'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d pytestAutomation -c 'update Complex//SDMCE/LDAPManager/TLSSettings/Enabled:false'"
+Binding user cn=doc.test
+LDAP-Search: sn=subscriber121,ou=subscribers,o=examplenatco,dc=enea.com filter:(objectclass=*) attributes:*
+Entries found: 1
+LDAP-SearchRes 1.:sn=subscriber121,ou=subscribers,o=examplenatco,dc=enea.com
+    sn: ['subscriber121']
+    objectclass: ['person', 'top']
+    cn: ['subscriber121']
+    telephonenumber: ['49121']
+    description: ['This is DocStore Test User']
+    userpassword: ['tlstest121']
+    imsi: ['121']
+    msisdn: ['777654321121']
+    preferredlanguage: ['English']
+    street: ['street121']
+    subscriberType: ['WELCOME 121']
+    uid: ['uidsubscriber_121']
+LDAP-Search-Res: code:0 message:''
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_replication_add_entry_search_3_copy_sync SKIPPED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_cleanup_delete_testdata Binding user cn=doc.test
+LDAP-Delete: sn=subscriber4711,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber4713,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:32 message:'No such Object'
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber4714,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber123,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber124,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:32 message:'No such Object'
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber125,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber126,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber127,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+Binding user cn=doc.test
+LDAP-Delete: sn=subscriber121,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:0 message:''
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'setOnlineDoc opwvconfig'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'setOnlineDoc opwvconfig'"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'setOnlineDoc opwvconfig'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'setOnlineDoc opwvconfig'"
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_pre_overload_run_setup SKIPPED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_P1_when_all_ADMs_are_overloaded_mixed_admin_req_pass SKIPPED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_P1_cleanup Binding user cn=Stratum-Test-User,ou=Users,ou=Administration,o=EneaOrg
+LDAP-Delete: cn=subscriber001,ou=subscribers,o=examplenatco,dc=enea.com controls:None
+LDAP-Delete-Res: code:32 message:'No such Object'
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'setOnlineDoc opwvconfig'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'SdmceSystem' -d opwvconfig -c 'setOnlineDoc opwvconfig'"
+/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'setOnlineDoc opwvconfig'
+[Allure]     sudo su - opwv -c "/opt/opwv/oam/4.1/bin/OamCommandLine -h ems01 -u cli -p *F2Uasf2HDeRiZY^ -s 'OAM v4.1' -d opwvconfig -c 'setOnlineDoc opwvconfig'"
+PASSED
+DocStore/DocStoreSmokeSet/test_stratum_docstore.py::test_post_run_core_checker PASSED
+
+=============================== warnings summary ===============================
+../../../../../usr/local/lib/python3.6/site-packages/paramiko/transport.py:32
+  /usr/local/lib/python3.6/site-packages/paramiko/transport.py:32: CryptographyDeprecationWarning: Python 3.6 is no longer supported by the Python core team. Therefore, support for it is deprecated in cryptography. The next release of cryptography will remove support for Python 3.6.
+    from cryptography.hazmat.backends import default_backend
+
+../../../../../usr/lib/python3.6/site-packages/urllib3/connectionpool.py:847
+  /usr/lib/python3.6/site-packages/urllib3/connectionpool.py:847: InsecureRequestWarning: Unverified HTTPS request is being made. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#ssl-warnings
+    InsecureRequestWarning)
+
+stratum_config_modules.py:304
+  /opt/opwv/sdmCD/4.1/tests/stratum_config_modules.py:304: DeprecationWarning: invalid escape sequence \[
+    re_result = re.search('\[([\d,\s]+)\]', response)
+
+stratum_config_modules.py:321
+  /opt/opwv/sdmCD/4.1/tests/stratum_config_modules.py:321: DeprecationWarning: invalid escape sequence \[
+    re_result = re.search('\[([\d,\s]+)\]', response)
+
+stratum_replication_modules.py:245
+  /opt/opwv/sdmCD/4.1/tests/stratum_replication_modules.py:245: DeprecationWarning: invalid escape sequence \d
+    cid = re.search('cid=(.*),tombstone=\d', store).group(1)
+
+stratum_replication_modules.py:254
+  /opt/opwv/sdmCD/4.1/tests/stratum_replication_modules.py:254: DeprecationWarning: invalid escape sequence \d
+    cid = re.search('cid=(.*),tombstone=\d', store).group(1)
+
+stratum_replication_modules.py:263
+  /opt/opwv/sdmCD/4.1/tests/stratum_replication_modules.py:263: DeprecationWarning: invalid escape sequence \d
+    cid = re.search('cid=(.*),tombstone=\d', store).group(1)
+
+sdmce_general_modules.py:364
+  /opt/opwv/sdmCD/4.1/tests/sdmce_general_modules.py:364: DeprecationWarning: invalid escape sequence \%
+    create_core_tar_cmd = f"sudo su -c 'tar -C /var/opt/opwv/cores/ -cvzf /var/opt/opwv/tmp/cores_backup/`date +\%G_\%m_\%d_\%H\%M\%S`_`hostname`_cores_backup.tar.gz .'"
+
+sdmce_general_modules.py:721
+  /opt/opwv/sdmCD/4.1/tests/sdmce_general_modules.py:721: DeprecationWarning: invalid escape sequence \(
+    follower_list = re.search('\nFollower\(s\)=\'(.+?)\'', leader_follower_output).group(1)
+
+sdmce_general_modules.py:864
+  /opt/opwv/sdmCD/4.1/tests/sdmce_general_modules.py:864: DeprecationWarning: invalid escape sequence \.
+    node_ip = ssh.exec(prop.ems_primary_host, 'grep ' + node + ' /etc/hosts | grep -E -o \'([0-9]{1,3}[\.]){3}[0-9]{1,3}\'')
+
+sdmce_general_modules.py:1305
+  /opt/opwv/sdmCD/4.1/tests/sdmce_general_modules.py:1305: DeprecationWarning: invalid escape sequence \$
+    ssh_resh = ssh.exec(node_ip, f"echo 'RX_bytes='; ifconfig {interface_name}" + " | grep 'RX packets' | awk '{print \$5}'").replace('\n', '')
+
+sdmce_general_modules.py:1307
+  /opt/opwv/sdmCD/4.1/tests/sdmce_general_modules.py:1307: DeprecationWarning: invalid escape sequence \$
+    ssh_resh = ssh.exec(node_ip, f"echo 'TX_bytes='; ifconfig {interface_name}" + " | grep 'TX packets' | awk '{print \$5}'").replace('\n', '')
+
+sdmce_general_modules.py:1324
+  /opt/opwv/sdmCD/4.1/tests/sdmce_general_modules.py:1324: DeprecationWarning: invalid escape sequence \$
+    ssh_resh = ssh.exec(node_ip, f"echo 'RX_errors='; ifconfig {interface_name}" + " | grep 'RX errors' | awk '{print \$3}'").replace('\n', '')
+
+sdmce_general_modules.py:1326
+  /opt/opwv/sdmCD/4.1/tests/sdmce_general_modules.py:1326: DeprecationWarning: invalid escape sequence \$
+    ssh_resh = ssh.exec(node_ip, f"echo 'TX_errors='; ifconfig {interface_name}" + " | grep 'TX errors' | awk '{print \$3}'").replace('\n', '')
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+---------------------- generated xml file: /tmp/junit.xml ----------------------
+============ 24 passed, 3 skipped, 14 warnings in 181.32s (0:03:01) ============
