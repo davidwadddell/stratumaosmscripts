@@ -1,0 +1,126 @@
+--worker_shutdowns.sh-Fri Dec 15 20:14:02 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w
+--worker_shutdowns.sh-Fri Dec 15 20:14:02 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 20:14:33 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p is down
+--worker_shutdowns.sh-Fri Dec 15 20:14:33 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p condition met
+--worker_shutdowns.sh-Fri Dec 15 20:19:35 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p is ready
+--worker_shutdowns.sh-Fri Dec 15 20:19:35 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 20:24:35 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w
+--worker_shutdowns.sh-Fri Dec 15 20:24:35 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 20:25:06 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w is down
+--worker_shutdowns.sh-Fri Dec 15 20:25:06 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w condition met
+--worker_shutdowns.sh-Fri Dec 15 20:30:07 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w is ready
+--worker_shutdowns.sh-Fri Dec 15 20:30:07 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 20:35:07 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb
+--worker_shutdowns.sh-Fri Dec 15 20:35:07 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 20:35:38 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p is down
+--worker_shutdowns.sh-Fri Dec 15 20:35:38 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p condition met
+--worker_shutdowns.sh-Fri Dec 15 20:40:39 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p is ready
+--worker_shutdowns.sh-Fri Dec 15 20:40:39 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 20:45:39 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb
+--worker_shutdowns.sh-Fri Dec 15 20:45:39 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 20:46:10 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb is down
+--worker_shutdowns.sh-Fri Dec 15 20:46:10 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb condition met
+--worker_shutdowns.sh-Fri Dec 15 20:51:12 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb is ready
+--worker_shutdowns.sh-Fri Dec 15 20:51:12 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 20:56:12 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p
+--worker_shutdowns.sh-Fri Dec 15 20:56:12 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 20:56:43 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p is down
+--worker_shutdowns.sh-Fri Dec 15 20:56:43 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p condition met
+--worker_shutdowns.sh-Fri Dec 15 21:01:44 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p is ready
+--worker_shutdowns.sh-Fri Dec 15 21:01:44 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 21:06:44 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb
+--worker_shutdowns.sh-Fri Dec 15 21:06:44 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 21:07:15 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq is down
+--worker_shutdowns.sh-Fri Dec 15 21:07:15 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq condition met
+--worker_shutdowns.sh-Fri Dec 15 21:12:17 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq is ready
+--worker_shutdowns.sh-Fri Dec 15 21:12:17 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 21:17:17 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-whjjc
+--worker_shutdowns.sh-Fri Dec 15 21:17:17 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 21:17:48 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl is down
+--worker_shutdowns.sh-Fri Dec 15 21:17:48 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl condition met
+--worker_shutdowns.sh-Fri Dec 15 21:22:49 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl is ready
+--worker_shutdowns.sh-Fri Dec 15 21:22:49 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 21:27:49 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-whjjc
+--worker_shutdowns.sh-Fri Dec 15 21:27:49 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 21:28:20 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w is down
+--worker_shutdowns.sh-Fri Dec 15 21:28:20 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w condition met
+--worker_shutdowns.sh-Fri Dec 15 21:33:21 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-xdh2w is ready
+--worker_shutdowns.sh-Fri Dec 15 21:33:21 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 21:38:21 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq
+--worker_shutdowns.sh-Fri Dec 15 21:38:21 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 21:38:52 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm is down
+--worker_shutdowns.sh-Fri Dec 15 21:38:52 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm condition met
+--worker_shutdowns.sh-Fri Dec 15 21:43:53 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm is ready
+--worker_shutdowns.sh-Fri Dec 15 21:43:53 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 21:48:53 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm
+--worker_shutdowns.sh-Fri Dec 15 21:48:53 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 21:49:25 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb is down
+--worker_shutdowns.sh-Fri Dec 15 21:49:25 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb condition met
+--worker_shutdowns.sh-Fri Dec 15 21:54:26 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-jtdjb is ready
+--worker_shutdowns.sh-Fri Dec 15 21:54:26 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 21:59:26 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p
+--worker_shutdowns.sh-Fri Dec 15 21:59:26 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 21:59:58 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm is down
+--worker_shutdowns.sh-Fri Dec 15 21:59:58 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm condition met
+--worker_shutdowns.sh-Fri Dec 15 22:04:59 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm is ready
+--worker_shutdowns.sh-Fri Dec 15 22:04:59 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 22:09:59 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-59bzj
+--worker_shutdowns.sh-Fri Dec 15 22:09:59 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 22:10:30 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq is down
+--worker_shutdowns.sh-Fri Dec 15 22:10:30 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq condition met
+--worker_shutdowns.sh-Fri Dec 15 22:15:31 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq is ready
+--worker_shutdowns.sh-Fri Dec 15 22:15:31 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 22:20:31 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-59bzj
+--worker_shutdowns.sh-Fri Dec 15 22:20:31 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 22:21:02 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm is down
+--worker_shutdowns.sh-Fri Dec 15 22:21:02 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm condition met
+--worker_shutdowns.sh-Fri Dec 15 22:26:03 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm is ready
+--worker_shutdowns.sh-Fri Dec 15 22:26:03 UTC 2023: sleeping
+--worker_shutdowns.sh-Fri Dec 15 22:31:03 UTC 2023: selected udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl and udr1-rdmwa45-naks-1-28eae184-agentpool1-md-59bzj
+--worker_shutdowns.sh-Fri Dec 15 22:31:03 UTC 2023: shutting down udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl
+Removed /etc/systemd/system/multi-user.target.wants/kubelet.service.
+--worker_shutdowns.sh-Fri Dec 15 22:31:34 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl is down
+--worker_shutdowns.sh-Fri Dec 15 22:31:34 UTC 2023: sleeping
+Created symlink /etc/systemd/system/multi-user.target.wants/kubelet.service → /usr/lib/systemd/system/kubelet.service.
+node/udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl condition met
+--worker_shutdowns.sh-Fri Dec 15 22:36:36 UTC 2023: udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl is ready
+--worker_shutdowns.sh-Fri Dec 15 22:36:36 U
