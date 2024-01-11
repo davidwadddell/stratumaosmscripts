@@ -1,0 +1,46 @@
+Wed Jan 10 15:01:29 UTC 2024
+NAME                                                     STATUS     ROLES           AGE     VERSION
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-59bzj         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-6m7np         Ready      <none>          9m42s   v1.25.11
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kgtsr         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-lxr7z         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-q5c8p         Ready      <none>          5m27s   v1.25.11
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-w74n2         NotReady   <none>          30s     v1.25.11   <<-- new node
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-whjjc         Ready      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-59qm8   Ready      control-plane   21m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-j8224   Ready      control-plane   15m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-j8rjc   Ready      control-plane   40m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-n8tvp   Ready      control-plane   34m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-rjnhg   Ready      control-plane   28m     v1.25.11
+ <snip>
+Wed Jan 10 15:01:38 UTC 2024
+NAME                                                     STATUS                     ROLES           AGE     VERSION
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-264vq         Ready                      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-59bzj         Ready                      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-6m7np         Ready                      <none>          9m51s   v1.25.11
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-ffl7p         Ready                      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kgtsr         Ready,SchedulingDisabled   <none>          112d    v1.24.9   <-- node being replaced
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kltcl         Ready                      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-lxr7z         Ready                      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-q5c8p         Ready                      <none>          5m36s   v1.25.11
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-sptrm         Ready                      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-w74n2         Ready                      <none>          39s     v1.25.11  <-- new node
+udr1-rdmwa45-naks-1-28eae184-agentpool1-md-whjjc         Ready                      <none>          112d    v1.24.9
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-59qm8   Ready                      control-plane   21m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-j8224   Ready                      control-plane   15m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-j8rjc   Ready                      control-plane   41m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-n8tvp   Ready                      control-plane   34m     v1.25.11
+udr1-rdmwa45-naks-1-28eae184-control-plane-mtzxl-rjnhg   Ready                      control-plane   28m     v1.25.11
+
+
+"failure-domain.beta.kubernetes.io/zone": "2",
+"kubernetes.io/hostname": "udr1-rdmwa45-naks-1-28eae184-agentpool1-md-w74n2",
+"topology.kubernetes.io/zone": "2",
+
+"failure-domain.beta.kubernetes.io/zone": "3",
+"kubernetes.io/hostname": "udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kgtsr",
+"topology.kubernetes.io/zone": "3",
