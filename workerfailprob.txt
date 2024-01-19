@@ -1,0 +1,124 @@
+Name:             site1-region1-stratum-ild-2
+Namespace:        stratum
+Priority:         0
+Service Account:  default
+Node:             udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kgtsr/107.243.72.15
+Start Time:       Fri, 15 Dec 2023 17:44:37 +0000
+Labels:           app=stratum
+                  controller-revision-hash=site1-region1-stratum-ild-7694dbc984
+                  name=ild
+                  ssname=site1-region1-stratum-ild
+                  statefulset.kubernetes.io/pod-name=site1-region1-stratum-ild-2
+Annotations:      cni.projectcalico.org/podIP: 
+                  cni.projectcalico.org/podIPs: 
+                  kubectl.kubernetes.io/restartedAt: 2023-12-15T17:41:56Z
+Status:           Pending
+IP:               
+IPs:              <none>
+Controlled By:    StatefulSet/site1-region1-stratum-ild
+Init Containers:
+  init-registration:
+    Container ID:  
+    Image:         eneapublisher1eneaartifactstore1c3d7fecc66.azurecr.io/rhel7:latest
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/sh
+      -c
+    Args:
+      url01=https://ems01:8443/OAM/restapi/status; url02=https://ems02:8443/OAM/restapi/status; params='?login=rest&password=restpass'; until  timeout 2 curl -I -f -k -s ${url01}${params}  || timeout 2 curl -I -f -k -s ${url02}${params}  ; do echo $(date +"%b %d %H:%M:%S") "Waiting for the EMS registration server at $url01 or url02"; sleep 5; done
+    State:          Waiting
+      Reason:       PodInitializing
+    Ready:          False
+    Restart Count:  0
+    Limits:
+      cpu:     200m
+      memory:  200M
+    Requests:
+      cpu:        200m
+      memory:     200M
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hj4td (ro)
+Containers:
+  ild:
+    Container ID:  
+    Image:         eneapublisher1eneaartifactstore1c3d7fecc66.azurecr.io/stratum_fe:4.2.3-GA
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      /bin/sh
+    Args:
+      -c
+      /opt/opwv/run.sh
+    State:          Waiting
+      Reason:       PodInitializing
+    Ready:          False
+    Restart Count:  0
+    Limits:
+      cpu:     4
+      memory:  8Gi
+    Requests:
+      cpu:      4
+      memory:   8Gi
+    Liveness:   exec [/bin/sh -c pgrep -f AggregatorService && pgrep ild_manager && pgrep netdata && pgrep -f ild_server] delay=0s timeout=2s period=10s #success=1 #failure=5
+    Readiness:  exec [/bin/sh -c /opt/opwv/ild_readiness_check.sh 3389,3443,3480] delay=0s timeout=4s period=10s #success=1 #failure=3
+    Startup:    exec [/bin/sh -c pgrep -f AggregatorService && pgrep ild_manager && pgrep netdata && pgrep -f ild_server] delay=0s timeout=2s period=10s #success=1 #failure=60
+    Environment:
+      TZ:                                   UTC
+      FE_TYPE:                              ILD
+      REGION:                               site1region1
+      SITE:                                 site1
+      CS_HOSTNAME_ENV:                      ems01
+      CS_OTHER_HOSTNAME_ENV:                ems02
+      PROCESS_PINNING_ENABLED:              true
+      HOSTS_FILE_UPDATE_INTERVAL:           10
+      NETDATA_PORT:                         19999
+      NETDATA_CONNECTION_MONITOR_INTERVAL:  2
+      NETDATA_MAXIMUM_CONNECTION_FAILURES:  3
+    Mounts:
+      /root/.ssh/id_dsa from keys-v (rw,path="id_dsa")
+      /root/.ssh/id_dsa.pub from keys-v (rw,path="id_dsa.pub")
+      /root/.ssh/id_rsa from keys-v (rw,path="id_rsa")
+      /root/.ssh/id_rsa.pub from keys-v (rw,path="id_rsa.pub")
+      /var/opt/opwv/cores from corevol (rw)
+      /var/opt/opwv/logs from logsvol (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hj4td (ro)
+Conditions:
+  Type              Status
+  Initialized       False 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  corevol:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  corevol-site1-region1-stratum-ild-2
+    ReadOnly:   false
+  logsvol:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  logsvol-site1-region1-stratum-ild-2
+    ReadOnly:   false
+  keys-v:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  stratum-ssh-keys
+    Optional:    false
+  kube-api-access-hj4td:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   Guaranteed
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 10s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 10s
+Events:
+  Type     Reason       Age                   From               Message
+  ----     ------       ----                  ----               -------
+  Normal   Scheduled    6m39s                 default-scheduler  Successfully assigned stratum/site1-region1-stratum-ild-2 to udr1-rdmwa45-naks-1-28eae184-agentpool1-md-kgtsr
+  Warning  FailedMount  2m33s                 kubelet            Unable to attach or mount volumes: unmounted volumes=[corevol], unattached volumes=[corevol kube-api-access-hj4td logsvol keys-v]: timed out waiting for the condition
+  Warning  FailedMount  30s (x2 over 4m36s)   kubelet            Unable to attach or mount volumes: unmounted volumes=[corevol], unattached volumes=[keys-v corevol kube-api-access-hj4td logsvol]: timed out waiting for the condition
+  Warning  FailedMount  15s (x11 over 6m30s)  kubelet            MountVolume.SetUp failed for volume "pvc-ef614584-601a-4f24-859f-e0a11ccebf73" : rpc error: code = Internal desc = failed to find device with volumeID 934a3c26-87f3-3818-996b-216d98508ac3. device name(934a3c26-87f3-3818-996b-216d98508ac3) is not found under /dev/disk/by-id/
