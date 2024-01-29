@@ -1,0 +1,1 @@
+for p in $(kubectl get pods -o wide | grep adm | awk '{print $1}') ; do metrics=$(kubectl logs ${pod} 2>/dev/null | grep METRIC | tail -1  | sed "s#.*\(GossipResp[^, ]*\).*#\1#g") ; echo ${p} ${metrics} ; done
