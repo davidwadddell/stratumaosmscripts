@@ -12,4 +12,4 @@ systemctl start containerd
 sleep 2
 sudo systemctl status containerd
 ctr images
-sudo tar Cxzvvf /usr/local nerdctl-full-1.7.2-linux-amd64.tar.gz
+sudo tar Cxzvvf /usr/local/bin nerdctl-1.7.2-linux-amd64.tar.gz
