@@ -8,9 +8,8 @@ containerd config default | sudo tee /etc/containerd/config.toml
 sudo sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
 mv containerd.service  /etc/systemd/system/.
 sudo systemctl daemon-reload
-sudo systemctl status containerd
-sudo systemctl daemon-reload
 systemctl start containerd
+sleep 2
 sudo systemctl status containerd
 ctr images
 sudo tar Cxzvvf /usr/local nerdctl-full-1.7.2-linux-amd64.tar.gz
