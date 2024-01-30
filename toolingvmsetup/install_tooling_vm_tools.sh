@@ -1,4 +1,5 @@
 set -e
+sudo cp kubectl /usr/local/bin
 sudo tar Cxzvf /usr/local containerd-1.7.7-linux-amd64.tar.gz
 sudo install -m 755 runc.amd64 /usr/local/sbin/runc
 sudo mkdir -p /opt/cni/bin

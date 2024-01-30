@@ -42,9 +42,16 @@
 
 
 need nerdctl ; ctr cli doesn't network the pod by default
+scp  enea-k6-latest.tar tooling-vm:.
+ssh tooling-vm 
+nerdctl load enea-k6-latest.tar
+nerdctl network create bridge
 
 run k6
 nerdctl  run -it --rm --name k6 --entrypoint /bin/sleep stratum.owmobility.com/stratumcnf/enea-k6:latest infinity
+
+copy k6_run_provision.sh and k6_run_attach.sh to the tooling vm.
+exec into k6 container edit /var/tmp/stratum/attach.js and provisioning.js to modify ILD IP and params for the run. 
 
 # helper scripts for init and smoke 
 
