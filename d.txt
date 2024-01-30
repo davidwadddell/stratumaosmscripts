@@ -40,6 +40,12 @@
 # jq - not sure how i fetched it  
  cp ~/jq /usr/bin
 
+
+need nerdctl ; ctr cli doesn't network the pod by default
+
+run k6
+nerdctl  run -it --rm --name k6 --entrypoint /bin/sleep stratum.owmobility.com/stratumcnf/enea-k6:latest infinity
+
 # helper scripts for init and smoke 
 
 t@eneatoolingvm:~# cd pytest/
@@ -82,3 +88,4 @@ if [ "$1" == "smoke" ] ; then
    kubectl exec   site1-stratum-pytest-client-0 -- /tmp/run_smoke.sh
 fi
 
+nerdctl  run -it --rm --name k6 --entrypoint /bin/sleep stratum.owmobility.com/stratumcnf/enea-k6:latest infinity
