@@ -1,0 +1,3 @@
+kubectl exec -ti $(kubectl get pods -o name | grep ems01) -- /opt/opwv/oam/4.1/bin/OamCommandLine -u rest -p restpass -s "SdmceSystem" -h localhost -c "update Complex//Cluster/IPC/GossipFrequency:1000"
+kubectl exec -ti $(kubectl get pods -o name | grep ems01) -- /opt/opwv/oam/4.1/bin/OamCommandLine -u rest -p restpass -s "SdmceSystem" -h localhost -c "update Complex//IPCResend/IPCResendInitialRttRetry:200"
+kubectl exec -ti $(kubectl get pods -o name | grep ems01) -- /opt/opwv/oam/4.1/bin/OamCommandLine -u rest -p restpass -s "SdmceSystem" -h localhost -c "update Complex//CSM/Inter-siteReplication/CsmRedundancy:80"
