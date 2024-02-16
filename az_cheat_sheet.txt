@@ -1,0 +1,1 @@
+ az resource list -g ${resourceGroup} -o table --query "[].{name:name, type:type, provisioningState:provisioningState,  created:createdTime, changed:changedTime}"
