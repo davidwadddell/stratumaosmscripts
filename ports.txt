@@ -1,0 +1,953 @@
+Name:                     auk62e-ild-0
+Type:                     LoadBalancer
+IP:                       10.98.204.197
+IPs:                      10.98.204.197
+IP:                       166.194.92.172
+LoadBalancer Ingress:     166.194.92.172
+Port:                     ldap  389/TCP
+TargetPort:               3389/TCP
+Port:                     sbi  443/TCP
+TargetPort:               443/TCP
+Port:                     swc-tls  8443/TCP
+TargetPort:               443/TCP
+Port:                     h2c-pcf  8001/TCP
+TargetPort:               80/TCP
+Port:                     h2c-udm  8002/TCP
+TargetPort:               80/TCP
+External Traffic Policy:  Cluster
+  Type    Reason        Age                  From             Message
+  ----    ------        ----                 ----             -------
+
+
+Name:              auk62e-ild-0-bypass
+Selector:          name=ild
+Type:              ClusterIP
+IP:                10.110.32.118
+IPs:               10.110.32.118
+External IPs:      166.194.92.172
+Port:              h2c  8003/TCP
+TargetPort:        3480/TCP
+Port:              h2  8444/TCP
+TargetPort:        3443/TCP
+
+
+Name:                     auk62e-ild-1
+Type:                     LoadBalancer
+IP:                       10.104.23.197
+IPs:                      10.104.23.197
+IP:                       166.193.216.78
+LoadBalancer Ingress:     166.193.216.78
+Port:                     ldap  389/TCP
+TargetPort:               3389/TCP
+Port:                     sbi  443/TCP
+TargetPort:               443/TCP
+Port:                     swc-tls  8443/TCP
+TargetPort:               443/TCP
+Port:                     h2c-pcf  8001/TCP
+TargetPort:               80/TCP
+Port:                     h2c-udm  8002/TCP
+TargetPort:               80/TCP
+External Traffic Policy:  Cluster
+  Type    Reason        Age                  From             Message
+  ----    ------        ----                 ----             -------
+
+
+Name:              auk62e-ild-1-bypass
+Selector:          name=ild
+Type:              ClusterIP
+IP:                10.102.102.13
+IPs:               10.102.102.13
+External IPs:      166.193.216.78
+Port:              h2c  8003/TCP
+TargetPort:        3480/TCP
+Port:              h2  8444/TCP
+TargetPort:        3443/TCP
+
+
+Name:                     auk62e-ild-2
+Type:                     LoadBalancer
+IP:                       10.101.82.160
+IPs:                      10.101.82.160
+IP:                       166.193.216.79
+LoadBalancer Ingress:     166.193.216.79
+Port:                     ldap  389/TCP
+TargetPort:               3389/TCP
+Port:                     sbi  443/TCP
+TargetPort:               443/TCP
+Port:                     swc-tls  8443/TCP
+TargetPort:               443/TCP
+Port:                     h2c-pcf  8001/TCP
+TargetPort:               80/TCP
+Port:                     h2c-udm  8002/TCP
+TargetPort:               80/TCP
+External Traffic Policy:  Cluster
+
+
+Name:              auk62e-ild-2-bypass
+Selector:          name=ild
+Type:              ClusterIP
+IP:                10.96.128.103
+IPs:               10.96.128.103
+External IPs:      166.193.216.79
+Port:              h2c  8003/TCP
+TargetPort:        3480/TCP
+Port:              h2  8444/TCP
+TargetPort:        3443/TCP
+
+
+Name:              auk62e-ingress-local
+Selector:          name=ild
+Type:              ClusterIP
+IP:                10.96.20.169
+IPs:               10.96.20.169
+Port:              sbi  443/TCP
+TargetPort:        443/TCP
+Port:              h2c  80/TCP
+TargetPort:        3480/TCP
+
+
+Name:              auk62e-r1-csm-udr001
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr001-0
+Type:              ClusterIP
+IP:                10.104.83.105
+IPs:               10.104.83.105
+External IPs:      166.194.92.132
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr002
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr002-0
+Type:              ClusterIP
+IP:                10.108.170.153
+IPs:               10.108.170.153
+External IPs:      166.194.92.133
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr003
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr003-0
+Type:              ClusterIP
+IP:                10.107.120.224
+IPs:               10.107.120.224
+External IPs:      166.194.92.134
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr004
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr004-0
+Type:              ClusterIP
+IP:                10.98.48.111
+IPs:               10.98.48.111
+External IPs:      166.194.92.135
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr009
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr009-0
+Type:              ClusterIP
+IP:                10.108.122.162
+IPs:               10.108.122.162
+External IPs:      166.194.92.140
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr010
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr010-0
+Type:              ClusterIP
+IP:                10.108.31.208
+IPs:               10.108.31.208
+External IPs:      166.194.92.141
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr011
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr011-0
+Type:              ClusterIP
+IP:                10.108.126.228
+IPs:               10.108.126.228
+External IPs:      166.194.92.142
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr012
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr012-0
+Type:              ClusterIP
+IP:                10.108.69.154
+IPs:               10.108.69.154
+External IPs:      166.194.92.143
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr017
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr017-0
+Type:              ClusterIP
+IP:                10.108.106.5
+IPs:               10.108.106.5
+External IPs:      166.194.92.148
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr018
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr018-0
+Type:              ClusterIP
+IP:                10.109.133.33
+IPs:               10.109.133.33
+External IPs:      166.194.92.149
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr019
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr019-0
+Type:              ClusterIP
+IP:                10.106.96.110
+IPs:               10.106.96.110
+External IPs:      166.194.92.150
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr020
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr020-0
+Type:              ClusterIP
+IP:                10.111.12.221
+IPs:               10.111.12.221
+External IPs:      166.194.92.151
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr025
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr025-0
+Type:              ClusterIP
+IP:                10.98.67.14
+IPs:               10.98.67.14
+External IPs:      166.194.92.156
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr026
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr026-0
+Type:              ClusterIP
+IP:                10.106.114.226
+IPs:               10.106.114.226
+External IPs:      166.194.92.157
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr027
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr027-0
+Type:              ClusterIP
+IP:                10.107.39.8
+IPs:               10.107.39.8
+External IPs:      166.194.92.158
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr028
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr028-0
+Type:              ClusterIP
+IP:                10.96.136.54
+IPs:               10.96.136.54
+External IPs:      166.194.92.159
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr033
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr033-0
+Type:              ClusterIP
+IP:                10.97.245.10
+IPs:               10.97.245.10
+External IPs:      166.194.92.164
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr034
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr034-0
+Type:              ClusterIP
+IP:                10.108.49.240
+IPs:               10.108.49.240
+External IPs:      166.194.92.165
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr035
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr035-0
+Type:              ClusterIP
+IP:                10.108.177.42
+IPs:               10.108.177.42
+External IPs:      166.194.92.166
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r1-csm-udr036
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r1-stratum-csm-udr036-0
+Type:              ClusterIP
+IP:                10.102.100.89
+IPs:               10.102.100.89
+External IPs:      166.194.92.167
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr005
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr005-0
+Type:              ClusterIP
+IP:                10.110.6.40
+IPs:               10.110.6.40
+External IPs:      166.194.92.136
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr006
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr006-0
+Type:              ClusterIP
+IP:                10.107.228.255
+IPs:               10.107.228.255
+External IPs:      166.194.92.137
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr007
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr007-0
+Type:              ClusterIP
+IP:                10.98.132.250
+IPs:               10.98.132.250
+External IPs:      166.194.92.138
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr008
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr008-0
+Type:              ClusterIP
+IP:                10.104.222.153
+IPs:               10.104.222.153
+External IPs:      166.194.92.139
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr013
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr013-0
+Type:              ClusterIP
+IP:                10.100.121.207
+IPs:               10.100.121.207
+External IPs:      166.194.92.144
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr014
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr014-0
+Type:              ClusterIP
+IP:                10.101.234.44
+IPs:               10.101.234.44
+External IPs:      166.194.92.145
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr015
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr015-0
+Type:              ClusterIP
+IP:                10.99.27.112
+IPs:               10.99.27.112
+External IPs:      166.194.92.146
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr016
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr016-0
+Type:              ClusterIP
+IP:                10.110.138.167
+IPs:               10.110.138.167
+External IPs:      166.194.92.147
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr021
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr021-0
+Type:              ClusterIP
+IP:                10.105.71.39
+IPs:               10.105.71.39
+External IPs:      166.194.92.152
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr022
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr022-0
+Type:              ClusterIP
+IP:                10.97.178.113
+IPs:               10.97.178.113
+External IPs:      166.194.92.153
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr023
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr023-0
+Type:              ClusterIP
+IP:                10.104.174.192
+IPs:               10.104.174.192
+External IPs:      166.194.92.154
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr024
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr024-0
+Type:              ClusterIP
+IP:                10.98.75.127
+IPs:               10.98.75.127
+External IPs:      166.194.92.155
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr029
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr029-0
+Type:              ClusterIP
+IP:                10.104.169.255
+IPs:               10.104.169.255
+External IPs:      166.194.92.160
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr030
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr030-0
+Type:              ClusterIP
+IP:                10.109.104.0
+IPs:               10.109.104.0
+External IPs:      166.194.92.161
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr031
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr031-0
+Type:              ClusterIP
+IP:                10.99.62.254
+IPs:               10.99.62.254
+External IPs:      166.194.92.162
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr032
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr032-0
+Type:              ClusterIP
+IP:                10.96.242.81
+IPs:               10.96.242.81
+External IPs:      166.194.92.163
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr037
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr037-0
+Type:              ClusterIP
+IP:                10.105.28.193
+IPs:               10.105.28.193
+External IPs:      166.194.92.168
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr038
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr038-0
+Type:              ClusterIP
+IP:                10.101.107.187
+IPs:               10.101.107.187
+External IPs:      166.194.92.169
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr039
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr039-0
+Type:              ClusterIP
+IP:                10.96.96.110
+IPs:               10.96.96.110
+External IPs:      166.194.92.170
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk62e-r2-csm-udr040
+Selector:          statefulset.kubernetes.io/pod-name=auk62e-r2-stratum-csm-udr040-0
+Type:              ClusterIP
+IP:                10.97.217.36
+IPs:               10.97.217.36
+External IPs:      166.194.92.171
+Port:              csm-8500  8500/UDP
+TargetPort:        8500/UDP
+Port:              csm-8501  8501/UDP
+TargetPort:        8501/UDP
+Port:              csm-8502  8502/UDP
+TargetPort:        8502/UDP
+Port:              csm-8503  8503/UDP
+TargetPort:        8503/UDP
+Port:              csm-8504  8504/UDP
+TargetPort:        8504/UDP
+
+
+Name:              auk65b-ingress-remote
+Selector:          <none>
+Type:              ClusterIP
+IP:                10.101.227.105
+IPs:               10.101.227.105
+Port:              sbi  443/TCP
+TargetPort:        443/TCP
+Port:              h2c  80/TCP
+TargetPort:        80/TCP
+
+
+Name:                     ems01
+Selector:                 name=ems01
+Type:                     LoadBalancer
+IP:                       10.98.215.141
+IPs:                      10.98.215.141
+IP:                       166.193.216.182
+LoadBalancer Ingress:     166.193.216.182
+Port:                     cs  8080/TCP
+TargetPort:               8080/TCP
+Port:                     https  8443/TCP
+TargetPort:               8443/TCP
+Port:                     grafana  3000/TCP
+TargetPort:               3000/TCP
+Port:                     ssh  22/TCP
+TargetPort:               22/TCP
+Port:                     netdata  19999/TCP
+TargetPort:               19999/TCP
+Port:                     aggregator  9650/TCP
+TargetPort:               9650/TCP
+Port:                     ordb  3306/TCP
+TargetPort:               3306/TCP
+Port:                     prometheus  9090/TCP
+TargetPort:               9090/TCP
+Port:                     dfmhb  10500/TCP
+TargetPort:               10500/TCP
+External Traffic Policy:  Cluster
+
+
+Name:                     ems02
+Selector:                 name=ems02
+Type:                     LoadBalancer
+IP:                       10.105.48.172
+IPs:                      10.105.48.172
+IP:                       166.193.216.183
+LoadBalancer Ingress:     166.193.216.183
+Port:                     cs  8080/TCP
+TargetPort:               8080/TCP
+Port:                     https  8443/TCP
+TargetPort:               8443/TCP
+Port:                     grafana  3000/TCP
+TargetPort:               3000/TCP
+Port:                     ssh  22/TCP
+TargetPort:               22/TCP
+Port:                     netdata  19999/TCP
+TargetPort:               19999/TCP
+Port:                     aggregator  9650/TCP
+TargetPort:               9650/TCP
+Port:                     ordb  3306/TCP
+TargetPort:               3306/TCP
+Port:                     prometheus  9090/TCP
+TargetPort:               9090/TCP
+Port:                     dfmhb  10500/TCP
+TargetPort:               10500/TCP
+External Traffic Policy:  Cluster
+
+
+Name:                     haproxy-haproxy-ingress
+                          helm.sh/chart=haproxy-ingress-4.3.0-GA
+Type:                     LoadBalancer
+IP:                       10.101.186.112
+IPs:                      10.101.186.112
+IP:                       192.168.130.8
+Port:                     http-80  80/TCP
+TargetPort:               http/TCP
+Port:                     https-443  443/TCP
+TargetPort:               https/TCP
+Port:                     extra-port-8001  8001/TCP
+TargetPort:               http/TCP
+External Traffic Policy:  Cluster
+
+
+Name:              haproxy-haproxy-ingress-metrics
+                   helm.sh/chart=haproxy-ingress-4.3.0-GA
+Type:              ClusterIP
+IP:                10.106.19.107
+IPs:               10.106.19.107
+Port:              metrics  9101/TCP
+TargetPort:        metrics/TCP
+Port:              ctrl-metrics  10254/TCP
+TargetPort:        ctrl-metrics/TCP
+
+
+Name:              haproxy-haproxy-ingress-no-partition
+                   helm.sh/chart=haproxy-ingress-4.3.0-GA
+Type:              ClusterIP
+IP:                10.106.220.96
+IPs:               10.106.220.96
+Port:              http  8080/TCP
+TargetPort:        http/TCP
+
+
+Name:              haproxy-haproxy-ingress-stats
+                   helm.sh/chart=haproxy-ingress-4.3.0-GA
+Type:              ClusterIP
+IP:                10.96.167.55
+IPs:               10.96.167.55
+Port:              stats  1936/TCP
+TargetPort:        stats/TCP
+
+
+Name:              stratum-nodes
+Type:              ClusterIP
+IP:                None
+IPs:               None
+Port:              web  80/TCP
+TargetPort:        80/TCP
+
+
+Name:              stratum-nrf-client-service
+Type:              ClusterIP
+IP:                10.99.150.100
+IPs:               10.99.150.100
+Port:              metrics  9090/TCP
+TargetPort:        9090/TCP
