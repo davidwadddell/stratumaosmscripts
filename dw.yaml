@@ -1,0 +1,1741 @@
+USER-SUPPLIED VALUES:
+ems01:
+  custom_cli_script: |
+    site_upper=$(echo ${site} | tr '[:lower:]' '[:upper:]')
+
+    ems_version=$(ls /opt/opwv/oam)
+    OAMCLI="/opt/opwv/oam/${ems_version}/bin/OamCommandLine -u rest -p restpass -h localhost -s SdmceSystem -c "
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=${site}r1] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:${site}r1:RegionName:${site}r1:LocalSiteName:${site_upper}R1"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=${site}r2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:${site}r2:RegionName:${site}r2:LocalSiteName:${site_upper}R2"
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=udr] Complex//ReplicationTopology/ReplicationProfiles/CFG_GROUP_ID:udr:ProfileName:udr:ProfileDescription:udr:LeadershipMode:SoftLeader:ProfileSpecification:[${site_upper}R1${disk},${site_upper}R2${disk}]"
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=udsf] Complex//ReplicationTopology/ReplicationProfiles/CFG_GROUP_ID:udsf:ProfileName:udsf:ProfileDescription:udsf:LeadershipMode:SoftLeader:ProfileSpecification:[${site_upper}R1,${site_upper}R2]"
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=nrf] Complex//ReplicationTopology/ReplicationProfiles/CFG_GROUP_ID:nrf:ProfileName:nrf:ProfileDescription:nrf:LeadershipMode:SoftLeader:ProfileSpecification:[${site_upper}R1,${site_upper}R2]"
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=roaming] Complex//ReplicationTopology/ReplicationProfiles/CFG_GROUP_ID:roaming:ProfileName:roaming:ProfileDescription:roaming:LeadershipMode:SoftLeader:ProfileSpecification:[${site_upper}R1${disk},${site_upper}R2${disk}]"
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=status] Complex//ReplicationTopology/ReplicationProfiles/CFG_GROUP_ID:status:ProfileName:status:ProfileDescription:status:LeadershipMode:SoftLeader:ProfileSpecification:[${site_upper}R1,${site_upper}R2]"
+
+
+    # Use schema files from EMS
+    sed -e 's/profile66sync33async/udr/g' -e 's/builtin/roaming/g' /opt/opwv/sdmCD/${ems_version}/ldif/tools/Stratum/docstore-Nudr-DataRepository-att.yaml > /opt/opwv/docstore-Nudr-DataRepository-att.yaml
+    sed 's/profile66sync33async/udsf/g' /opt/opwv/sdmCD/${ems_version}/ldif/tools/Stratum/docstore-Nudsf-DataRepository.yaml > /opt/opwv/docstore-Nudsf-DataRepository.yaml
+    sed -e 's/profile100sync/nrf/g' -e 's/builtin/status/g' /opt/opwv/sdmCD/${ems_version}/ldif/tools/Stratum/docstore-Builtin-DataRepository.yaml > /opt/opwv/docstore-Builtin-DataRepository.yaml
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=1] Complex//SDMCE/DocStoreClients/SBI/DocStoreClientCfg/CFG_GROUP_ID:1:Enabled:true:Name:nudr-dr-v2:Description:NUDRv2:Login:nudr-dr-v2:Password:docpass:AppGroup::SchemaName:Nudr_DataRepository%3A2.1.7:Priority:3:TableScanAllowed:true:SubtreeDelete:false:IgnoreCriticalLockRequest:false:MetaInResponse:false"
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=2] Complex//SDMCE/DocStoreClients/SBI/DocStoreClientCfg/CFG_GROUP_ID:2:Enabled:true:Name:nudsf-dr-v1:Description:NUDSFv1:Login:nudsf-dr-v1:Password:docpass:AppGroup::SchemaName:Nudsf_DataRepository%3A1.0.4:Priority:3:TableScanAllowed:true:SubtreeDelete:false:IgnoreCriticalLockRequest:false:MetaInResponse:false"
+
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=3] Complex//SDMCE/DocStoreClients/SBI/DocStoreClientCfg/CFG_GROUP_ID:3:Enabled:true:Name:builtin-v1:Description:NRF:Login:builtin-v1:Password:docpass:AppGroup::SchemaName:Builtin_DataRepository%3A1:Priority:3:TableScanAllowed:true:SubtreeDelete:false:IgnoreCriticalLockRequest:false:MetaInResponse:false"
+
+    export EMS_USER=rest; export EMS_PASSWORD=restpass; export EMS_System_Name=SdmceSystem; python /opt/opwv/oam/${ems_version}/tools/schema/YAMLtoEMS.py -i /opt/opwv/docstore-Nudr-DataRepository-att.yaml - -
+    export EMS_USER=rest; export EMS_PASSWORD=restpass; export EMS_System_Name=SdmceSystem; python /opt/opwv/oam/${ems_version}/tools/schema/YAMLtoEMS.py -i /opt/opwv/docstore-Nudsf-DataRepository.yaml - -
+    export EMS_USER=rest; export EMS_PASSWORD=restpass; export EMS_System_Name=SdmceSystem; python /opt/opwv/oam/${ems_version}/tools/schema/YAMLtoEMS.py -i /opt/opwv/docstore-Builtin-DataRepository.yaml - -
+
+    $OAMCLI "update Complex//SDMCE/SchemaManagement/SchemaEntriesCore/Nudr_DataRepository/SchemaActive:2.1.7"
+    $OAMCLI "update Complex//SDMCE/SchemaManagement/SchemaEntriesCore/Nudr_DataRepository/SchemaEnabled:true"
+
+    $OAMCLI "update Complex//SDMCE/SchemaManagement/SchemaEntriesCore/Nudsf_DataRepository/SchemaActive:1.0.4"
+    $OAMCLI "update Complex//SDMCE/SchemaManagement/SchemaEntriesCore/Nudsf_DataRepository/SchemaEnabled:true"
+
+    $OAMCLI "update Complex//SDMCE/SchemaManagement/SchemaEntriesCore/Builtin_DataRepository/SchemaActive:1"
+    $OAMCLI "update Complex//SDMCE/SchemaManagement/SchemaEntriesCore/Builtin_DataRepository/SchemaEnabled:true"
+
+
+    ## Global configuration changes
+
+    # Use a fixed ShardDepth of 8, instead of auto-detecting.  This allows Local + National UDRs to replicate back and forth.
+    $OAMCLI "update Complex//Cluster/DataPartitioning/ShardDepth:8"
+
+    # This should be set to the number of CSMs deployed in each local Region; Local UDRs = 3, National UDRs = 20
+    $OAMCLI "update Complex//CSM/Inter-siteReplication/CsmRedundancy:20"
+
+    # Do not retry a failed Notification attempt
+    $OAMCLI "update Complex//SDMCE/Notifications/NotifyAttempts:1"
+
+    # Increase GossipFrequency to reduce chatty-ness in larger deployments
+    $OAMCLI "update Complex//Cluster/IPC/GossipFrequency:1000"
+
+    # Increase the delay before resending via IPC, to prevent escalating resend storms
+    $OAMCLI "update Complex//IPCResend/IPCResendInitialRttRetry:200"
+
+    # Overwrite pre-existing UDM subscriptions with the same list of monitoredUris + nfInstanceId
+    $OAMCLI "addList Complex//SDMCE/Notifications/SubscriptionIdAttrList/sdmSubscription%2FnfInstanceId"
+
+    # Default Expiry Time for UDR Subscriptions; 604800 = 7 days
+    $OAMCLI "update Complex//SDMCE/Notifications/SubscriptionDataSubscriptionTTL:604800"
+    $OAMCLI "update Complex//SDMCE/Notifications/PolicyDataSubscriptionTTL:604800"
+    $OAMCLI "update Complex//SDMCE/Notifications/ApplicationDataSubscriptionTTL:604800"
+    $OAMCLI "update Complex//SDMCE/Notifications/ExposureDataSubscriptionTTL:604800"
+
+    # Subscription limit for policy-data STNs
+    $OAMCLI "update Complex//SDMCE/Notifications/PolicyDataSubscriptionLimit:10"
+
+    # Set the number of outstanding requests per ILD before that ILD returns a 429 error back to the client for new requests
+    $OAMCLI "update Complex//SDMCE/OverloadProfile/ProfileNUDRv2/MaxRequestLimit:200"
+
+    # Enable tracing for requests that timeout
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=default] Complex//SDMCE/DocStoreTracing/TraceProfiles/CFG_GROUP_ID:default:TraceProfileName:default:TraceTimeout:true:TraceNotFound:false"
+    $OAMCLI "update Complex//SDMCE/DocStoreLogging/EnableDocTraceLogging:true"
+
+    # Enable METRICS logs
+    $OAMCLI "update Complex//SDMCE/DocStoreLogging/EnableDocHeartbeatLogging:true"
+    $OAMCLI "update Complex//SDMCE/DocStoreLogging/EnableDocHeartbeatInternLogging:true"
+
+    # Write TRC and METRICS logs to a file inside each pod, instead of writing to STDOUT (where they are viewable with 'kubectl logs')
+    $OAMCLI "update Complex//SDMCE/DocStoreLoggingDest/EnableDocTraceFile:true"
+    $OAMCLI "update Complex//SDMCE/DocStoreLoggingDest/EnableDocMetricsFile:true"
+
+    # Disable INF-level logs
+    $OAMCLI "update Complex//SDMCE/DocStoreLogging/EnableDocInfoLogging:false"
+
+    # Set minimum compatibility; 4.3.0 or greater enables granular merge
+    #$OAMCLI "update Complex//SDMCE/BackwardCompatibility/MinimumReleaseVersionCompatibility:4.3.0"
+
+    # Increase Grafana retention
+    /opt/opwv/oam/${ems_version}/bin/OamCommandLine -u rest -p restpass -h localhost -s "OAM v${ems_version}" -c "update Complex/Core/ems01/SCA//SCAData/SCAManagedProcessCfg/50002/ProcessStartupArgs:start+--storage.tsdb.wal-compression+--config.file%3D%2Fopt%2Fopwv%2Foam%2F${ems_version}%2Fprometheus%2Fstratum-kpi-prometheus.yml+--log.level%3Dwarn+--storage.tsdb.retention.time%3D48h+--query.lookback-delta%3D%275s%27"
+    /opt/opwv/oam/${ems_version}/bin/OamCommandLine -u rest -p restpass -h localhost -s "OAM v${ems_version}" -c "update Complex/Core/ems02/SCA//SCAData/SCAManagedProcessCfg/50008/ProcessStartupArgs:start+--storage.tsdb.wal-compression+--config.file%3D%2Fopt%2Fopwv%2Foam%2F${ems_version}%2Fprometheus%2Fstratum-kpi-prometheus.yml+--log.level%3Dwarn+--storage.tsdb.retention.time%3D48h+--query.lookback-delta%3D%275s%27"
+
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=rdm66aR2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:rdm66ar2:RegionName:rdm66ar2:LocalSiteName:RDM66AR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk62eR1] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk62er1:RegionName:auk62er1:LocalSiteName:AUK62ER1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk62eR2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk62er2:RegionName:auk62er2:LocalSiteName:AUK62ER2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk63bR1] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk63br1:RegionName:auk63br1:LocalSiteName:AUK63BR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk63bR2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk63br2:RegionName:auk63br2:LocalSiteName:AUK63BR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk63fR1] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk63fr1:RegionName:auk63fr1:LocalSiteName:AUK63FR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk63fR2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk63fr2:RegionName:auk63fr2:LocalSiteName:AUK63FR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk65bR1] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk65br1:RegionName:auk65br1:LocalSiteName:AUK65BR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=auk65bR2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:auk65br2:RegionName:auk65br2:LocalSiteName:AUK65BR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=rdm62gR1] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:rdm62gr1:RegionName:rdm62gr1:LocalSiteName:RDM62GR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=rdm62gR2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:rdm62gr2:RegionName:rdm62gr2:LocalSiteName:RDM62GR2"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=WEST] Complex//Partitioning/GeoRegions/CFG_GROUP_ID:WEST:GeoRegion:WEST"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=rdm66a] Complex//Partitioning/GeoRegions/WEST/UDRSites/CFG_GROUP_ID:rdm66a:UDRSiteId:rdm66a"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/rdm66a/StratumRegions/RDM66AR1"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/rdm66a/StratumRegions/RDM66AR2"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=auk62e] Complex//Partitioning/GeoRegions/WEST/UDRSites/CFG_GROUP_ID:auk62e:UDRSiteId:auk62e"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/auk62e/StratumRegions/AUK62ER1"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/auk62e/StratumRegions/AUK62ER2"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=auk63b] Complex//Partitioning/GeoRegions/WEST/UDRSites/CFG_GROUP_ID:auk63b:UDRSiteId:auk63b"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/auk63b/StratumRegions/AUK63BR1"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/auk63b/StratumRegions/AUK63BR2"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=auk63f] Complex//Partitioning/GeoRegions/WEST/UDRSites/CFG_GROUP_ID:auk63f:UDRSiteId:auk63f"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/auk63f/StratumRegions/AUK63FR1"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/WEST/UDRSites/auk63f/StratumRegions/AUK63FR2"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=auk65b] Complex//Partitioning/GeoRegions/CFG_GROUP_ID:auk65b:GeoRegion:auk65b"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=auk65b] Complex//Partitioning/GeoRegions/auk65b/UDRSites/CFG_GROUP_ID:auk65b:UDRSiteId:auk65b"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/auk65b/UDRSites/auk65b/StratumRegions/AUK65BR1"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/auk65b/UDRSites/auk65b/StratumRegions/AUK65BR2"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=rdm62g] Complex//Partitioning/GeoRegions/CFG_GROUP_ID:rdm62g:GeoRegion:rdm62g"
+    $OAMCLI "addGroupOnlyIfNotExists [CFG_GROUP_ID=rdm62g] Complex//Partitioning/GeoRegions/rdm62g/UDRSites/CFG_GROUP_ID:rdm62g:UDRSiteId:rdm62g"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/rdm62g/UDRSites/rdm62g/StratumRegions/RDM62GR1"
+    $OAMCLI "addList Complex//Partitioning/GeoRegions/rdm62g/UDRSites/rdm62g/StratumRegions/RDM62GR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=vp0] Complex//Partitioning/SupiRanges/CFG_GROUP_ID:vp0:VirtualPartitionId:0"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}00$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}04$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}08$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}12$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}16$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}20$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}24$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}28$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}32$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}36$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}40$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}44$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}48$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}52$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}56$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}60$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}64$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}68$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}72$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}76$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}80$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}84$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}88$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}92$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp0/SupiRanges/^imsi-[0-9]{13}96$"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=vp1] Complex//Partitioning/SupiRanges/CFG_GROUP_ID:vp1:VirtualPartitionId:1"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}01$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}05$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}09$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}13$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}17$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}21$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}25$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}29$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}33$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}37$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}41$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}45$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}49$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}53$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}57$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}61$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}65$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}69$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}73$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}77$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}81$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}85$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}89$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}93$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp1/SupiRanges/^imsi-[0-9]{13}97$"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=vp2] Complex//Partitioning/SupiRanges/CFG_GROUP_ID:vp2:VirtualPartitionId:2"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}02$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}06$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}10$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}14$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}18$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}22$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}26$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}30$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}34$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}38$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}42$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}46$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}50$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}54$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}58$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}62$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}66$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}70$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}74$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}78$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}82$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}86$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}90$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}94$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp2/SupiRanges/^imsi-[0-9]{13}98$"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=vp3] Complex//Partitioning/SupiRanges/CFG_GROUP_ID:vp3:VirtualPartitionId:3"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}03$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}07$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}11$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}15$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}19$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}23$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}27$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}31$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}35$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}39$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}43$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}47$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}51$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}55$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}59$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}63$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}67$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}71$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}75$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}79$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}83$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}87$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}91$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}95$"
+    $OAMCLI "addList Complex//Partitioning/SupiRanges/vp3/SupiRanges/^imsi-[0-9]{13}99$"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR1] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:WESTR1:RegionName:WESTR1:LocalSiteName:WESTR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR1] Complex//Partitioning/PartitionGroups/CFG_GROUP_ID:WESTR1:PartitionGroupId:WESTR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR1P0] Complex//Partitioning/PartitionGroups/WESTR1/Partitions/CFG_GROUP_ID:WESTR1P0:PartitionId:P0:UDRSiteId:rdm66a:StratumRegion:RDM66AR1"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR1/Partitions/WESTR1P0/VirtualPartitions/0"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR1/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR1P1] Complex//Partitioning/PartitionGroups/WESTR1/Partitions/CFG_GROUP_ID:WESTR1P1:PartitionId:P1:UDRSiteId:auk62e:StratumRegion:AUK62ER1"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR1/Partitions/WESTR1P1/VirtualPartitions/1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR1/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR1P2] Complex//Partitioning/PartitionGroups/WESTR1/Partitions/CFG_GROUP_ID:WESTR1P2:PartitionId:P2:UDRSiteId:auk63b:StratumRegion:AUK63BR1"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR1/Partitions/WESTR1P2/VirtualPartitions/2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR1/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR1P3] Complex//Partitioning/PartitionGroups/WESTR1/Partitions/CFG_GROUP_ID:WESTR1P3:PartitionId:P3:UDRSiteId:auk63f:StratumRegion:AUK63FR1"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR1/Partitions/WESTR1P3/VirtualPartitions/3"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR1/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR2] Complex//ReplicationTopology/RegionToSiteMappings/CFG_GROUP_ID:WESTR2:RegionName:WESTR2:LocalSiteName:WESTR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR2] Complex//Partitioning/PartitionGroups/CFG_GROUP_ID:WESTR2:PartitionGroupId:WESTR2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR2P0] Complex//Partitioning/PartitionGroups/WESTR2/Partitions/CFG_GROUP_ID:WESTR2P0:PartitionId:P0:UDRSiteId:rdm66a:StratumRegion:RDM66AR2"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR2/Partitions/WESTR2P0/VirtualPartitions/0"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR2/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR2P1] Complex//Partitioning/PartitionGroups/WESTR2/Partitions/CFG_GROUP_ID:WESTR2P1:PartitionId:P1:UDRSiteId:auk62e:StratumRegion:AUK62ER2"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR2/Partitions/WESTR2P1/VirtualPartitions/1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR2/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR2P2] Complex//Partitioning/PartitionGroups/WESTR2/Partitions/CFG_GROUP_ID:WESTR2P2:PartitionId:P2:UDRSiteId:auk63b:StratumRegion:AUK63BR2"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR2/Partitions/WESTR2P2/VirtualPartitions/2"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR2/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=WESTR2P3] Complex//Partitioning/PartitionGroups/WESTR2/Partitions/CFG_GROUP_ID:WESTR2P3:PartitionId:P3:UDRSiteId:auk63f:StratumRegion:AUK63FR2"
+    $OAMCLI "addList Complex//Partitioning/PartitionGroups/WESTR2/Partitions/WESTR2P3/VirtualPartitions/3"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=1] Complex//Partitioning/PartitionGroups/WESTR2/Failover/CFG_GROUP_ID:1:Priority:1:PartitionGroupId:WESTR1"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=udr-partitioned] Complex//ReplicationTopology/ReplicationProfiles/CFG_GROUP_ID:udr-partitioned:ProfileName:udr-partitioned:LeadershipMode:SoftLeader:ProfileSpecification:[WESTR1<disk>,WESTR2<disk>],[AUK65BR1<disk>,AUK65BR2<disk>],[RDM62GR1<disk>,RDM62GR2<disk>]:ProfileDescription:udr-partitioned"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=Nudr_DataRepository_active] Complex//Partitioning/SchemaTypeConfiguration/CFG_GROUP_ID:Nudr_DataRepository_active:SchemaName:Nudr_DataRepository%3Aactive"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=subscription-data_TS29505_Subscription_Data] Complex//Partitioning/SchemaTypeConfiguration/Nudr_DataRepository_active/RecordTypes/CFG_GROUP_ID:subscription-data_TS29505_Subscription_Data:RecordType:subscription-data_TS29505_Subscription_Data:Redundancy:udr-partitioned:Key:ueId"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=subscription-data_TS29505_Subscription_Data] Complex//Partitioning/SchemaTypeConfiguration/Nudr_DataRepository_active/RecordTypes/CFG_GROUP_ID:subscription-data_TS29505_Subscription_Data:RecordType:subscription-data_TS29505_Subscription_Data:Redundancy:udr-partitioned:Key:ueId"
+    $OAMCLI "addList Complex//Partitioning/SchemaTypeConfiguration/Nudr_DataRepository_active/RecordTypes/subscription-data_TS29505_Subscription_Data/ForwardingIndexes/servingPlmnId%2FprovisionedData%2FamData%2Fgpsis"
+    $OAMCLI "addGroupIfNotExists [CFG_GROUP_ID=policy-data_ues_TS29519_Policy_Data] Complex//Partitioning/SchemaTypeConfiguration/Nudr_DataRepository_active/RecordTypes/CFG_GROUP_ID:policy-data_ues_TS29519_Policy_Data:RecordType:policy-data_ues_TS29519_Policy_Data:Redundancy:udr-partitioned:Key:ueId"
+global:
+  createCoreVolumes: false
+  csmnodes:
+  - externalIP: 166.194.92.132
+    name: udr001
+    nodeName: zauk62ecudr01udr001
+    region: r1
+  - externalIP: 166.194.92.133
+    name: udr002
+    nodeName: zauk62ecudr01udr002
+    region: r1
+  - externalIP: 166.194.92.140
+    name: udr009
+    nodeName: zauk62ecudr01udr009
+    region: r1
+  - externalIP: 166.194.92.141
+    name: udr010
+    nodeName: zauk62ecudr01udr010
+    region: r1
+  - externalIP: 166.194.92.148
+    name: udr017
+    nodeName: zauk62ecudr01udr017
+    region: r1
+  - externalIP: 166.194.92.149
+    name: udr018
+    nodeName: zauk62ecudr01udr018
+    region: r1
+  - externalIP: 166.194.92.156
+    name: udr025
+    nodeName: zauk62ecudr01udr025
+    region: r1
+  - externalIP: 166.194.92.157
+    name: udr026
+    nodeName: zauk62ecudr01udr026
+    region: r1
+  - externalIP: 166.194.92.164
+    name: udr033
+    nodeName: zauk62ecudr01udr033
+    region: r1
+  - externalIP: 166.194.92.165
+    name: udr034
+    nodeName: zauk62ecudr01udr034
+    region: r1
+  - externalIP: 166.194.92.134
+    name: udr003
+    nodeName: zauk62ecudr01udr003
+    region: r1
+  - externalIP: 166.194.92.135
+    name: udr004
+    nodeName: zauk62ecudr01udr004
+    region: r1
+  - externalIP: 166.194.92.142
+    name: udr011
+    nodeName: zauk62ecudr01udr011
+    region: r1
+  - externalIP: 166.194.92.143
+    name: udr012
+    nodeName: zauk62ecudr01udr012
+    region: r1
+  - externalIP: 166.194.92.150
+    name: udr019
+    nodeName: zauk62ecudr01udr019
+    region: r1
+  - externalIP: 166.194.92.151
+    name: udr020
+    nodeName: zauk62ecudr01udr020
+    region: r1
+  - externalIP: 166.194.92.158
+    name: udr027
+    nodeName: zauk62ecudr01udr027
+    region: r1
+  - externalIP: 166.194.92.159
+    name: udr028
+    nodeName: zauk62ecudr01udr028
+    region: r1
+  - externalIP: 166.194.92.166
+    name: udr035
+    nodeName: zauk62ecudr01udr035
+    region: r1
+  - externalIP: 166.194.92.167
+    name: udr036
+    nodeName: zauk62ecudr01udr036
+    region: r1
+  - externalIP: 166.194.92.136
+    name: udr005
+    nodeName: zauk62ecudr01udr005
+    region: r2
+  - externalIP: 166.194.92.137
+    name: udr006
+    nodeName: zauk62ecudr01udr006
+    region: r2
+  - externalIP: 166.194.92.144
+    name: udr013
+    nodeName: zauk62ecudr01udr013
+    region: r2
+  - externalIP: 166.194.92.145
+    name: udr014
+    nodeName: zauk62ecudr01udr014
+    region: r2
+  - externalIP: 166.194.92.152
+    name: udr021
+    nodeName: zauk62ecudr01udr021
+    region: r2
+  - externalIP: 166.194.92.153
+    name: udr022
+    nodeName: zauk62ecudr01udr022
+    region: r2
+  - externalIP: 166.194.92.160
+    name: udr029
+    nodeName: zauk62ecudr01udr029
+    region: r2
+  - externalIP: 166.194.92.161
+    name: udr030
+    nodeName: zauk62ecudr01udr030
+    region: r2
+  - externalIP: 166.194.92.168
+    name: udr037
+    nodeName: zauk62ecudr01udr037
+    region: r2
+  - externalIP: 166.194.92.169
+    name: udr038
+    nodeName: zauk62ecudr01udr038
+    region: r2
+  - externalIP: 166.194.92.138
+    name: udr007
+    nodeName: zauk62ecudr01udr007
+    region: r2
+  - externalIP: 166.194.92.139
+    name: udr008
+    nodeName: zauk62ecudr01udr008
+    region: r2
+  - externalIP: 166.194.92.146
+    name: udr015
+    nodeName: zauk62ecudr01udr015
+    region: r2
+  - externalIP: 166.194.92.147
+    name: udr016
+    nodeName: zauk62ecudr01udr016
+    region: r2
+  - externalIP: 166.194.92.154
+    name: udr023
+    nodeName: zauk62ecudr01udr023
+    region: r2
+  - externalIP: 166.194.92.155
+    name: udr024
+    nodeName: zauk62ecudr01udr024
+    region: r2
+  - externalIP: 166.194.92.162
+    name: udr031
+    nodeName: zauk62ecudr01udr031
+    region: r2
+  - externalIP: 166.194.92.163
+    name: udr032
+    nodeName: zauk62ecudr01udr032
+    region: r2
+  - externalIP: 166.194.92.170
+    name: udr039
+    nodeName: zauk62ecudr01udr039
+    region: r2
+  - externalIP: 166.194.92.171
+    name: udr040
+    nodeName: zauk62ecudr01udr040
+    region: r2
+  dnsTimeout: 1
+  ems:
+    instance_id_start: 2100
+    otherRegionsPrometheusScrapeTargets: null
+  ems01:
+    enabled: true
+  ems02:
+    enabled: true
+  emsServices:
+    loadBalancerIPs:
+      ems01:
+      - 166.193.216.183
+      ems02:
+      - 166.193.216.184
+    ports:
+    - name: cs
+      port: 8080
+      targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
+    - name: grafana
+      port: 3000
+      targetPort: 3000
+    - name: ssh
+      port: 22
+      targetPort: 22
+    - name: netdata
+      port: 19999
+      targetPort: 19999
+    - name: aggregator
+      port: 9650
+      targetPort: 9650
+    - name: ordb
+      port: 3306
+      targetPort: 3306
+    - name: prometheus
+      port: 9090
+      targetPort: 9090
+    - name: dfmhb
+      port: 10500
+      targetPort: 10500
+  geoRegion: central
+  headlessService:
+    name: stratum-nodes
+    selectorAppName: stratum
+  id_dsa_key: LS0tLS1CRUdJTiBEU0EgUFJJVkFURSBLRVktLS0tLQpNSUlCdWdJQkFBS0JnUUM2KzNER3Fpd2hyS3NHbTBhT1Z5K3AvbjRqSVZqem9sTTFQN2YwOU85bGt6WVpWeUZxCkp1cS9sUktFd1d1MzFPU0tVaWtCTnlxOWlpOHJpdWs4QUE4VlZwZEhKY3prTEovVXovOGFFRkhFdkowR1RKTGsKZWcrLzFnM2svQUdWMTE0QzZ1MjRlbVUyQjdvdzFNQXh2TTgwZFVPY3plTThCSStKS3pMdEVxdG1qd0lWQUxqaQpiNkJLcG9zWWpYc2VlUVdtUUg1dHJHWnBBb0dBVzhjd1pTUnBDR1pPUlJzeUdoanNLM2t6RXNOYkNzcTFaRTJkCndHSW1BeVB6bHRSRmh4UWNZRHRiMHZRQ2pvK1QvZmlwb0JmUWsvcTI5Q2huc292QlRJemZrSXF3QlpwMFE3UTcKVVNJMDB4alo4TCtOeXBlYysybkhscytOVFp0TkpBeVdsRWFPSklzaHM1VzZhRFFnSDNjMzFHWWNnaTJwdVRPKwovVWppVTZNQ2dZQWxVUVZzOGRUT1RZdzdia0Z1OVRVOC9zTGxEME1LdUlZdnk4L1pmb29DSWplZE5HaUo5eVhmCkh5VHFibkVmYjF1OHRqL21OcjBWUGV1MHdLdGJOcXVFd3NxcXJYQjgrenIyWk1hOVpoOGR4YlMrQ2o5VUhLU0oKWXNtSmRKNDVKSFFjK09UNzA3bU9McFl3UlhjNjJTSUo0MXBjRVNzdjZyRXNhdzBhNGphM3hBSVVkbGRoZ2ROZApsSGJNM1orSkJ4dU9jWUNxVkg4PQotLS0tLUVORCBEU0EgUFJJVkFURSBLRVktLS0tLQo=
+  id_dsa_pub_key: c3NoLWRzcyBBQUFBQjNOemFDMWtjM01BQUFDQkFMcjdjTWFxTENHc3F3YWJSbzVYTDZuK2ZpTWhXUE9pVXpVL3QvVDA3MldUTmhsWElXb202citWRW9UQmE3ZlU1SXBTS1FFM0tyMktMeXVLNlR3QUR4VldsMGNsek9Rc245VFAveG9RVWNTOG5RWk1rdVI2RDcvV0RlVDhBWlhYWGdMcTdiaDZaVFlIdWpEVXdERzh6elIxUTV6TjR6d0VqNGtyTXUwU3EyYVBBQUFBRlFDNDRtK2dTcWFMR0kxN0hua0Zwa0IrYmF4bWFRQUFBSUJieHpCbEpHa0laazVGR3pJYUdPd3JlVE1TdzFzS3lyVmtUWjNBWWlZREkvT1cxRVdIRkJ4Z08xdlM5QUtPajVQOStLbWdGOUNUK3JiMEtHZXlpOEZNak4rUWlyQUZtblJEdER0UklqVFRHTm53djQzS2w1ejdhY2VXejQxTm0wMGtESmFVUm80a2l5R3psYnBvTkNBZmR6ZlVaaHlDTGFtNU03NzlTT0pUb3dBQUFJQWxVUVZzOGRUT1RZdzdia0Z1OVRVOC9zTGxEME1LdUlZdnk4L1pmb29DSWplZE5HaUo5eVhmSHlUcWJuRWZiMXU4dGovbU5yMFZQZXUwd0t0Yk5xdUV3c3FxclhCOCt6cjJaTWE5Wmg4ZHhiUytDajlVSEtTSllzbUpkSjQ1SkhRYytPVDcwN21PTHBZd1JYYzYyU0lKNDFwY0VTc3Y2ckVzYXcwYTRqYTN4QT09IHJvb3RAb3dtZGVtbwo=
+  id_rsa_key: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFb3dJQkFBS0NBUUVBdjgwZnBYNU84ZDVsS05kY256YnNkNkJ2VkkrSnlKWW42Y095ZDZGRkFIc25vRlhICnVSZnZRSlQ5bHBFTEgycUx3YjJsd1ErWmlWeTFIc1RkODRGY29XL20wY2lXTEI4L2NybC8wRXEyRTdHU0hWeXkKQlBhUnlRWGI4eGNlQzJlWSttU1M5aklsaGJxSklIamY0Q09yOWlqbmdrYlBoNGlWRXBJRzhob1UyYkQzWnZ0RQptSWFxSTZDNmREb2p4eUY3a3dCVjNpL2JEVGVzTWtnZkhqdk5JWmRKa2Y1VXNYNllLZFFqNlRLdkEwOEp6WjF6CjdnRW96MUdxUSt2Z0dGNlh1THc4M1ltZWNsYTU4SENOZkN6T1ZDOGFOZVgxcGxvZmk5M1Bxc3c3WGJ2ZW9yWE0KbTZZSk0yVmoyZ3E2ZmY3aEk0ODdsdzJJQXplQ3pNSHFaZEZCZHdJREFRQUJBb0lCQUJEeXNDd3dlQXRaU25rTQpacXZPNzZBMmRmL3oyd24xY3J0dVJuUFp0VDR3bzdUQVA3QzBVN2pTTVlJL2VNc2k0QXlUbEhUMXl1eGZXOFhIClFaR0Z5Y2llR2JoSjBETS80NXhnbGRHeStGblBKQWtpS3J6VGlOaEpnMEQ4dHZQdENKQi9tSmpXbjRnc2puZG4KRnVrNFhiYVhzTFZMU29WQVpXUEpzWUZ0R3BDTnNtQ1RoUGQ3bzM2OWUxeE1FWHdTV1E5bCtxbTF6TkQ4a1FyRAo3RUJRZXZyYkg0dDN2OEdLQ3lONFJxb2RCQVFHNHlHa25oSFdFMmxoNloxZndCUHMxelgrMlhMbTNZeGZUUFIyCm1DaTdEcGh3TFZCWURuOVZEMFhXU0xMVHdZRjhzU3Q4blRMTEpBVGR2UVNuWUttZ2xRMWxxUDNZcVY4ZmVqenYKZ2RhYytuRUNnWUVBN0hKY2Vrdm1WcUdDcFgrWFY4V0U1b2xSSmJTTTZpOFIxKytMcU05a3NBbHBFTldVTFkxTgozL25jN1dhek5DTXFSRE9QQXp5QmhsdEkzbkR3cFRHNDMvT0V3cWxsUlF4NjdNcExzcTliVW9sa0dlOTJqZ0pWClp0WGN5bWlTMy9BSEpHS1orNm5tUWRKZHZXMWFPYkhmYnhZbVF2YWM4RC9lbSt6a2lTZGNrMjhDZ1lFQXo2bWIKT3M0SlJnSXZVV1ZNcGVUaWd0WUJVamNrcWV6Nzl0d1hGYlRLMnYybTdwTlZkRkF2Um1DSHd5aGYvODErSm9YMApHeGJtNDl2UkkrcERGd1VGVko5VVBIVkozRk85bUFYdjlNZDFza2JrQ0c0cEZFdFF4akxSa0RIa1NnQWI5d2JJClI1N3ZjUlpyaEl1SE0wSkdxNzRwRTFscVRrMGxUQUF3NVY4NGpua0NnWUJLc0gxaDdHUGdiYmgxU3U2bHZURVUKR2NCV1pzZzBtWlhMWGxJQml6SEZJZFBjaTNyNVFLK2UxckRoRlJYNm5Ea1h2aW1vM2c0VVFQV3R2b05seTJVWQo2VFhBdi8zTFovdlVuTHA0d1VmWnRLaTRRSnAwbFd3Z3hlR3Uxb1crMDNXT0dzK0ZYYy9zYnVWSmx5ZHZIaTcwClNremZ6a01ZNlRRS2tUUkgxdlU1WlFLQmdHTUpHUzNmU3c3blJkZkV2dHd6SDArVWJrYmVZNDdpcFh1aWxTUFYKK0JTZWViazM3TDR1NjR6ZHhvRnRSUE5DOWxHNitxTGN0anFlLzh2b0VoenRXUkIxZC8vcFU5Tk80SkdhNjBoSwp3N2ZGRlVWci9BMWdxZUlNSkdOblY5OXUwK2RvaGFXYWg4amdEMkRFQmpPTS9SVTArSFB3NWNENEM3eUdMc3VGCk1QekpBb0dCQU1MNTAyam9GbkdLVFROaFg0ZmdkQWhSSkd4ZWl6dGdkUVJCSGNwK0E3MWVXaVNUS3hFTDNITXMKWW9Yd3JRRmllNzNJR1RlTEhWMUQ5MmIybUZWZjVQL3ZETE1nbXdidE5MM2FybzVldDEvS2RXUWRnSEk4Yk1CcQppWHNvc0JKR09pOFZnV09qUGZCR3VlK04vTnB2MHRiM2JVZ1RsbU1uYzlXd0dyVFR1UzlZCi0tLS0tRU5EIFJTQSBQUklWQVRFIEtFWS0tLS0tCg==
+  id_rsa_pub_key: c3NoLXJzYSBBQUFBQjNOemFDMXljMkVBQUFBREFRQUJBQUFCQVFDL3pSK2xmazd4M21VbzExeWZOdXgzb0c5VWo0bklsaWZwdzdKM29VVUFleWVnVmNlNUYrOUFsUDJXa1FzZmFvdkJ2YVhCRDVtSlhMVWV4TjN6Z1Z5aGIrYlJ5SllzSHo5eXVYL1FTcllUc1pJZFhMSUU5cEhKQmR2ekZ4NExaNWo2WkpMMk1pV0Z1b2tnZU4vZ0k2djJLT2VDUnMrSGlKVVNrZ2J5R2hUWnNQZG0rMFNZaHFvam9McDBPaVBISVh1VEFGWGVMOXNOTjZ3eVNCOGVPODBobDBtUi9sU3hmcGdwMUNQcE1xOERUd25OblhQdUFTalBVYXBENitBWVhwZTR2RHpkaVo1eVZybndjSTE4TE01VUx4bzE1ZldtV2grTDNjK3F6RHRkdTk2aXRjeWJwZ2t6WldQYUNycDkvdUVqanp1WERZZ0RONExNd2VwbDBVRjMgb3B3dkB6cmRtNjJnY3VkcjAxazhtMDAzCg==
+  ild:
+    pod_name: ild
+  ildService:
+    extraPorts:
+    - name: swc-tls
+      port: 8443
+      protocol: TCP
+      targetPort: 443
+    - name: h2c-pcf
+      port: 8001
+      protocol: TCP
+      targetPort: 80
+    - name: h2c-udm
+      port: 8002
+      protocol: TCP
+      targetPort: 80
+    ldap:
+      port: 389
+      targetPort: 3389
+    loadBalancerIPs:
+    - 166.194.92.172
+    - 166.193.216.78
+    - 166.193.216.79
+    name: ild
+    sbi:
+      port: 443
+      targetPort: 443
+  imagePullPolicy: IfNotPresent
+  imagePullSecrets: []
+  imagesRegistry: docker-registry.default.svc:5000
+  kubernetesClusterDomain: svc.cluster.local
+  multiWorkerNode: true
+  namespace: stratum
+  otherRegionCSMs:
+  - hostname: rdm62a-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.232.107
+  - hostname: rdm62a-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.232.110
+  - hostname: rdm62a-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.232.111
+  - hostname: rdm62a-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.232.105
+  - hostname: rdm62a-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.232.108
+  - hostname: rdm62a-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.232.109
+  - hostname: rdm62e-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.46.107
+  - hostname: rdm62e-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.46.110
+  - hostname: rdm62e-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.46.111
+  - hostname: rdm62e-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.46.105
+  - hostname: rdm62e-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.46.108
+  - hostname: rdm62e-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.46.109
+  - hostname: rdm62f-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.118.107
+  - hostname: rdm62f-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.118.110
+  - hostname: rdm62f-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.118.111
+  - hostname: rdm62f-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.118.105
+  - hostname: rdm62f-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.118.108
+  - hostname: rdm62f-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.118.109
+  - hostname: rdm56a-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.148.107
+  - hostname: rdm56a-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.148.110
+  - hostname: rdm56a-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.148.111
+  - hostname: rdm56a-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.148.105
+  - hostname: rdm56a-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.148.108
+  - hostname: rdm56a-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.148.109
+  - hostname: rdm52d-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.168.107
+  - hostname: rdm52d-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.168.110
+  - hostname: rdm52d-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.168.111
+  - hostname: rdm52d-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.168.105
+  - hostname: rdm52d-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.168.108
+  - hostname: rdm52d-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.168.109
+  - hostname: rdm69c-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.192.141
+  - hostname: rdm69c-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.192.144
+  - hostname: rdm69c-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.192.145
+  - hostname: rdm69c-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.192.139
+  - hostname: rdm69c-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.192.142
+  - hostname: rdm69c-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.192.143
+  - hostname: auk63d-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.40.107
+  - hostname: auk63d-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.40.110
+  - hostname: auk63d-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.40.111
+  - hostname: auk63d-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.40.105
+  - hostname: auk63d-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.40.108
+  - hostname: auk63d-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.40.109
+  - hostname: rdm60a-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.220.107
+  - hostname: rdm60a-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.220.110
+  - hostname: rdm60a-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.220.111
+  - hostname: rdm60a-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.220.105
+  - hostname: rdm60a-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.220.108
+  - hostname: rdm60a-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 107.121.220.109
+  - hostname: auk64e-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.153.107
+  - hostname: auk64e-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.153.110
+  - hostname: auk64e-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.153.111
+  - hostname: auk64e-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.153.105
+  - hostname: auk64e-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.153.108
+  - hostname: auk64e-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.153.109
+  - hostname: auk64a-r1-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.126.139
+  - hostname: auk64a-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.126.142
+  - hostname: auk64a-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.126.143
+  - hostname: auk64a-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.126.137
+  - hostname: auk64a-r2-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.126.140
+  - hostname: auk64a-r2-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.126.141
+  - hostname: rdm62g-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.132
+  - hostname: rdm62g-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.133
+  - hostname: rdm62g-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.140
+  - hostname: rdm62g-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.141
+  - hostname: rdm62g-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.148
+  - hostname: rdm62g-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.149
+  - hostname: rdm62g-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.156
+  - hostname: rdm62g-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.157
+  - hostname: rdm62g-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.164
+  - hostname: rdm62g-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.165
+  - hostname: rdm62g-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.134
+  - hostname: rdm62g-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.135
+  - hostname: rdm62g-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.142
+  - hostname: rdm62g-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.143
+  - hostname: rdm62g-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.150
+  - hostname: rdm62g-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.151
+  - hostname: rdm62g-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.158
+  - hostname: rdm62g-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.159
+  - hostname: rdm62g-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.166
+  - hostname: rdm62g-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.167
+  - hostname: rdm62g-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.136
+  - hostname: rdm62g-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.137
+  - hostname: rdm62g-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.144
+  - hostname: rdm62g-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.145
+  - hostname: rdm62g-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.152
+  - hostname: rdm62g-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.153
+  - hostname: rdm62g-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.160
+  - hostname: rdm62g-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.161
+  - hostname: rdm62g-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.168
+  - hostname: rdm62g-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.169
+  - hostname: rdm62g-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.138
+  - hostname: rdm62g-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.139
+  - hostname: rdm62g-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.146
+  - hostname: rdm62g-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.147
+  - hostname: rdm62g-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.154
+  - hostname: rdm62g-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.155
+  - hostname: rdm62g-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.162
+  - hostname: rdm62g-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.163
+  - hostname: rdm62g-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.170
+  - hostname: rdm62g-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.114.171
+  - hostname: auk64c-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.132
+  - hostname: auk64c-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.133
+  - hostname: auk64c-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.140
+  - hostname: auk64c-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.141
+  - hostname: auk64c-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.148
+  - hostname: auk64c-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.149
+  - hostname: auk64c-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.156
+  - hostname: auk64c-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.157
+  - hostname: auk64c-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.164
+  - hostname: auk64c-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.165
+  - hostname: auk64c-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.134
+  - hostname: auk64c-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.135
+  - hostname: auk64c-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.142
+  - hostname: auk64c-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.143
+  - hostname: auk64c-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.150
+  - hostname: auk64c-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.151
+  - hostname: auk64c-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.158
+  - hostname: auk64c-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.159
+  - hostname: auk64c-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.166
+  - hostname: auk64c-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.167
+  - hostname: auk64c-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.136
+  - hostname: auk64c-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.137
+  - hostname: auk64c-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.144
+  - hostname: auk64c-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.145
+  - hostname: auk64c-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.152
+  - hostname: auk64c-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.153
+  - hostname: auk64c-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.160
+  - hostname: auk64c-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.161
+  - hostname: auk64c-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.168
+  - hostname: auk64c-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.169
+  - hostname: auk64c-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.138
+  - hostname: auk64c-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.139
+  - hostname: auk64c-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.146
+  - hostname: auk64c-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.147
+  - hostname: auk64c-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.154
+  - hostname: auk64c-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.155
+  - hostname: auk64c-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.162
+  - hostname: auk64c-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.163
+  - hostname: auk64c-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.170
+  - hostname: auk64c-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.112.171
+  - hostname: auk64d-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.132
+  - hostname: auk64d-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.133
+  - hostname: auk64d-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.140
+  - hostname: auk64d-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.141
+  - hostname: auk64d-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.148
+  - hostname: auk64d-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.149
+  - hostname: auk64d-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.156
+  - hostname: auk64d-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.157
+  - hostname: auk64d-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.164
+  - hostname: auk64d-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.165
+  - hostname: auk64d-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.134
+  - hostname: auk64d-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.135
+  - hostname: auk64d-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.142
+  - hostname: auk64d-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.143
+  - hostname: auk64d-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.150
+  - hostname: auk64d-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.151
+  - hostname: auk64d-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.158
+  - hostname: auk64d-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.159
+  - hostname: auk64d-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.166
+  - hostname: auk64d-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.167
+  - hostname: auk64d-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.136
+  - hostname: auk64d-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.137
+  - hostname: auk64d-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.144
+  - hostname: auk64d-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.145
+  - hostname: auk64d-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.152
+  - hostname: auk64d-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.153
+  - hostname: auk64d-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.160
+  - hostname: auk64d-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.161
+  - hostname: auk64d-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.168
+  - hostname: auk64d-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.169
+  - hostname: auk64d-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.138
+  - hostname: auk64d-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.139
+  - hostname: auk64d-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.146
+  - hostname: auk64d-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.147
+  - hostname: auk64d-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.154
+  - hostname: auk64d-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.155
+  - hostname: auk64d-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.162
+  - hostname: auk64d-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.163
+  - hostname: auk64d-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.170
+  - hostname: auk64d-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.197.30.171
+  - hostname: auk65b-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.132
+  - hostname: auk65b-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.133
+  - hostname: auk65b-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.140
+  - hostname: auk65b-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.141
+  - hostname: auk65b-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.148
+  - hostname: auk65b-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.149
+  - hostname: auk65b-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.156
+  - hostname: auk65b-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.157
+  - hostname: auk65b-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.164
+  - hostname: auk65b-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.165
+  - hostname: auk65b-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.134
+  - hostname: auk65b-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.135
+  - hostname: auk65b-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.142
+  - hostname: auk65b-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.143
+  - hostname: auk65b-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.150
+  - hostname: auk65b-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.151
+  - hostname: auk65b-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.158
+  - hostname: auk65b-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.159
+  - hostname: auk65b-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.166
+  - hostname: auk65b-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.167
+  - hostname: auk65b-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.136
+  - hostname: auk65b-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.137
+  - hostname: auk65b-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.144
+  - hostname: auk65b-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.145
+  - hostname: auk65b-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.152
+  - hostname: auk65b-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.153
+  - hostname: auk65b-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.160
+  - hostname: auk65b-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.161
+  - hostname: auk65b-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.168
+  - hostname: auk65b-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.169
+  - hostname: auk65b-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.138
+  - hostname: auk65b-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.139
+  - hostname: auk65b-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.146
+  - hostname: auk65b-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.147
+  - hostname: auk65b-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.154
+  - hostname: auk65b-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.155
+  - hostname: auk65b-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.162
+  - hostname: auk65b-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.163
+  - hostname: auk65b-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.170
+  - hostname: auk65b-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.94.171
+  - hostname: rdm66a-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.132
+  - hostname: rdm66a-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.133
+  - hostname: rdm66a-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.140
+  - hostname: rdm66a-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.141
+  - hostname: rdm66a-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.148
+  - hostname: rdm66a-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.149
+  - hostname: rdm66a-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.156
+  - hostname: rdm66a-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.157
+  - hostname: rdm66a-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.164
+  - hostname: rdm66a-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.165
+  - hostname: rdm66a-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.134
+  - hostname: rdm66a-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.135
+  - hostname: rdm66a-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.142
+  - hostname: rdm66a-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.143
+  - hostname: rdm66a-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.150
+  - hostname: rdm66a-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.151
+  - hostname: rdm66a-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.158
+  - hostname: rdm66a-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.159
+  - hostname: rdm66a-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.166
+  - hostname: rdm66a-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.167
+  - hostname: rdm66a-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.136
+  - hostname: rdm66a-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.137
+  - hostname: rdm66a-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.144
+  - hostname: rdm66a-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.145
+  - hostname: rdm66a-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.152
+  - hostname: rdm66a-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.153
+  - hostname: rdm66a-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.160
+  - hostname: rdm66a-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.161
+  - hostname: rdm66a-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.168
+  - hostname: rdm66a-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.169
+  - hostname: rdm66a-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.138
+  - hostname: rdm66a-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.139
+  - hostname: rdm66a-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.146
+  - hostname: rdm66a-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.147
+  - hostname: rdm66a-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.154
+  - hostname: rdm66a-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.155
+  - hostname: rdm66a-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.162
+  - hostname: rdm66a-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.163
+  - hostname: rdm66a-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.170
+  - hostname: rdm66a-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.132.171
+  - hostname: auk63b-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.132
+  - hostname: auk63b-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.133
+  - hostname: auk63b-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.140
+  - hostname: auk63b-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.141
+  - hostname: auk63b-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.148
+  - hostname: auk63b-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.149
+  - hostname: auk63b-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.156
+  - hostname: auk63b-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.157
+  - hostname: auk63b-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.164
+  - hostname: auk63b-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.165
+  - hostname: auk63b-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.134
+  - hostname: auk63b-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.135
+  - hostname: auk63b-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.142
+  - hostname: auk63b-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.143
+  - hostname: auk63b-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.150
+  - hostname: auk63b-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.151
+  - hostname: auk63b-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.158
+  - hostname: auk63b-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.159
+  - hostname: auk63b-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.166
+  - hostname: auk63b-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.167
+  - hostname: auk63b-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.136
+  - hostname: auk63b-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.137
+  - hostname: auk63b-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.144
+  - hostname: auk63b-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.145
+  - hostname: auk63b-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.152
+  - hostname: auk63b-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.153
+  - hostname: auk63b-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.160
+  - hostname: auk63b-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.161
+  - hostname: auk63b-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.168
+  - hostname: auk63b-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.169
+  - hostname: auk63b-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.138
+  - hostname: auk63b-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.139
+  - hostname: auk63b-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.146
+  - hostname: auk63b-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.147
+  - hostname: auk63b-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.154
+  - hostname: auk63b-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.155
+  - hostname: auk63b-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.162
+  - hostname: auk63b-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.163
+  - hostname: auk63b-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.170
+  - hostname: auk63b-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 108.153.128.171
+  - hostname: auk62e-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.132
+  - hostname: auk62e-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.133
+  - hostname: auk62e-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.140
+  - hostname: auk62e-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.141
+  - hostname: auk62e-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.148
+  - hostname: auk62e-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.149
+  - hostname: auk62e-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.156
+  - hostname: auk62e-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.157
+  - hostname: auk62e-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.164
+  - hostname: auk62e-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.165
+  - hostname: auk62e-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.134
+  - hostname: auk62e-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.135
+  - hostname: auk62e-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.142
+  - hostname: auk62e-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.143
+  - hostname: auk62e-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.150
+  - hostname: auk62e-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.151
+  - hostname: auk62e-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.158
+  - hostname: auk62e-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.159
+  - hostname: auk62e-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.166
+  - hostname: auk62e-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.167
+  - hostname: auk62e-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.136
+  - hostname: auk62e-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.137
+  - hostname: auk62e-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.144
+  - hostname: auk62e-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.145
+  - hostname: auk62e-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.152
+  - hostname: auk62e-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.153
+  - hostname: auk62e-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.160
+  - hostname: auk62e-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.161
+  - hostname: auk62e-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.168
+  - hostname: auk62e-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.169
+  - hostname: auk62e-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.138
+  - hostname: auk62e-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.139
+  - hostname: auk62e-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.146
+  - hostname: auk62e-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.147
+  - hostname: auk62e-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.154
+  - hostname: auk62e-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.155
+  - hostname: auk62e-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.162
+  - hostname: auk62e-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.163
+  - hostname: auk62e-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.170
+  - hostname: auk62e-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.92.171
+  - hostname: auk63f-r1-stratum-csm-udr001-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.132
+  - hostname: auk63f-r1-stratum-csm-udr002-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.133
+  - hostname: auk63f-r1-stratum-csm-udr009-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.140
+  - hostname: auk63f-r1-stratum-csm-udr010-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.141
+  - hostname: auk63f-r1-stratum-csm-udr017-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.148
+  - hostname: auk63f-r1-stratum-csm-udr018-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.149
+  - hostname: auk63f-r1-stratum-csm-udr025-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.156
+  - hostname: auk63f-r1-stratum-csm-udr026-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.157
+  - hostname: auk63f-r1-stratum-csm-udr033-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.164
+  - hostname: auk63f-r1-stratum-csm-udr034-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.165
+  - hostname: auk63f-r1-stratum-csm-udr003-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.134
+  - hostname: auk63f-r1-stratum-csm-udr004-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.135
+  - hostname: auk63f-r1-stratum-csm-udr011-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.142
+  - hostname: auk63f-r1-stratum-csm-udr012-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.143
+  - hostname: auk63f-r1-stratum-csm-udr019-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.150
+  - hostname: auk63f-r1-stratum-csm-udr020-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.151
+  - hostname: auk63f-r1-stratum-csm-udr027-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.158
+  - hostname: auk63f-r1-stratum-csm-udr028-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.159
+  - hostname: auk63f-r1-stratum-csm-udr035-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.166
+  - hostname: auk63f-r1-stratum-csm-udr036-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.167
+  - hostname: auk63f-r2-stratum-csm-udr005-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.136
+  - hostname: auk63f-r2-stratum-csm-udr006-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.137
+  - hostname: auk63f-r2-stratum-csm-udr013-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.144
+  - hostname: auk63f-r2-stratum-csm-udr014-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.145
+  - hostname: auk63f-r2-stratum-csm-udr021-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.152
+  - hostname: auk63f-r2-stratum-csm-udr022-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.153
+  - hostname: auk63f-r2-stratum-csm-udr029-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.160
+  - hostname: auk63f-r2-stratum-csm-udr030-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.161
+  - hostname: auk63f-r2-stratum-csm-udr037-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.168
+  - hostname: auk63f-r2-stratum-csm-udr038-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.169
+  - hostname: auk63f-r2-stratum-csm-udr007-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.138
+  - hostname: auk63f-r2-stratum-csm-udr008-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.139
+  - hostname: auk63f-r2-stratum-csm-udr015-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.146
+  - hostname: auk63f-r2-stratum-csm-udr016-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.147
+  - hostname: auk63f-r2-stratum-csm-udr023-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.154
+  - hostname: auk63f-r2-stratum-csm-udr024-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.155
+  - hostname: auk63f-r2-stratum-csm-udr031-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.162
+  - hostname: auk63f-r2-stratum-csm-udr032-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.163
+  - hostname: auk63f-r2-stratum-csm-udr039-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.170
+  - hostname: auk63f-r2-stratum-csm-udr040-0.stratum-nodes.stratum.svc.cluster.local
+    ip: 166.194.116.171
+  partitioning:
+    partitions:
+      P0:
+        imsiPatterns:
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]00$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]04$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]08$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]12$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]16$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]20$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]24$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]28$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]32$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]36$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]40$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]44$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]48$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]52$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]56$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]60$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]64$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]68$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]72$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]76$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]80$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]84$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]88$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]92$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]96$
+        sitesByPriority:
+        - rdm66a
+        - auk65b
+        - rdm62g
+      P1:
+        imsiPatterns:
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]01$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]05$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]09$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]13$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]17$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]21$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]25$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]29$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]33$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]37$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]41$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]45$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]49$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]53$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]57$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]61$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]65$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]69$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]73$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]77$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]81$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]85$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]89$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]93$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]97$
+        sitesByPriority:
+        - auk62e
+        - auk65b
+        - rdm62g
+      P2:
+        imsiPatterns:
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]02$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]06$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]10$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]14$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]18$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]22$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]26$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]30$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]34$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]38$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]42$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]46$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]50$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]54$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]58$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]62$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]66$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]70$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]74$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]78$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]82$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]86$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]90$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]94$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]98$
+        sitesByPriority:
+        - auk63b
+        - auk65b
+        - rdm62g
+      P3:
+        imsiPatterns:
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]03$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]07$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]11$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]15$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]19$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]23$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]27$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]31$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]35$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]39$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]43$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]47$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]51$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]55$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]59$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]63$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]67$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]71$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]75$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]79$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]83$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]87$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]91$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]95$
+        - ^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]99$
+        sitesByPriority:
+        - auk63f
+        - auk65b
+        - rdm62g
+    sites:
+    - ingress_ip: 108.153.132.172
+      name: rdm66a
+    - ingress_ip: 166.194.92.172
+      name: auk62e
+    - ingress_ip: 108.153.128.172
+      name: auk63b
+    - ingress_ip: 166.194.116.172
+      name: auk63f
+    - ingress_ip: 166.194.94.172
+      name: auk65b
+    - ingress_ip: 166.197.114.172
+      name: rdm62g
+  site: auk62e
+  ssh_Secrets: null
+  ssh_SecretsName: stratum-ssh-keys
+  storageClass: csi-cinder-sc-delete
+  timezone: UTC
+  useConfigProxies: false
+haproxy-ingress:
+  controller:
+    config:
+      config-defaults: |
+        option http-no-delay
+        timeout connect 200
+        timeout client 300s
+        timeout server 5000
+        option dontlog-normal
+        no option prefer-last-server
+        timeout client-fin 1s
+        timeout server-fin 1s
+        no option http-server-close
+      config-frontend-early: |
+        # Stratum: Begin
+        # Define the ACLs first.
+        # Used to determine if the IMSI is in the URL path or query parameters.
+        acl has_imsi_in_url url_reg -i imsi-\d+
+
+        # We use this ACL to extract the IMSI from the body. The same ACL is intentionally used twice.
+        # With named ACLs, specifying the same ACL name multiple times will cause a logical OR of the conditions.
+        # 1. /nudr-dr/v2/policy-data/subs-to-notify
+        # 2. /nudr-dr/v2/subscription-data/subs-to-notify
+        # 3. /nudr-dr/v2/application-data
+        acl check_body_for_imsi path_reg -i subs-to-notify
+        acl check_body_for_imsi path_reg -i \/nudr-dr\/v.*\/application-data
+
+        # UDSF transactions should only be reouted to the local partition.
+        acl is_udsf path -i -m beg /nudsf-dr
+
+        # All roaming requests should be routed to the local partition too:
+        acl is_roaming path -i -m reg /roaming-plan-profile
+
+        # Used to detect if we already have the UUID header.
+        acl no_stratum_partition_uuid hdr_cnt(stratum-partition-uuid) eq 0
+        # Used to determine if we already have the header with the ingress start time.
+        acl no_stratum_start hdr_cnt(stratum-ingress-start) eq 0
+
+        # ACL to detect ILD health checks. We will use this to send to the local backend.
+        acl is_georegion_health_check path -i -m beg /oam/v1/operational_status
+        # ILD operational status checks should be routed to local ILDs.
+        acl is_operational_status path -i -m beg /builtin/v1/operationalstatus
+
+        # Get the IMSI from the body of a POST request.
+        # We only buffer the request if we know what type of request it is.
+        http-request wait-for-body time 5s at-least 16k if check_body_for_imsi
+        http-request set-var(req.body) req.body if check_body_for_imsi
+
+        # Store data that we need for the Lua scripts.
+        http-request set-var(req.client_ip) fc_src        # The client IP address.
+        http-request set-var(req.client_port) fc_src_port # The client port.
+        http-request set-var(req.url) url                 # Store the full URL.
+        http-request set-var(req.path) path               # The URL path.
+        http-request set-var(req.method) method           # The HTTP method - to detect DELETE requests.
+        http-request set-var(req.existing_uuid) req.hdr(stratum-partition-uuid)
+
+        # Response variables: Begin
+        # We use these for logging and diagnostics purposes.
+        http-response set-var(res.client_ip) fc_src
+        http-response set-var(res.client_port) fc_src_port
+        http-response set-var(res.method) method
+        http-response set-var(res.uuid) res.hdr(stratum-partition-uuid)
+        http-response set-var(res.health_check) res.hdr(stratum-health-check)
+        http-response set-var(res.start_time) res.hdr(stratum-ingress-start)
+        # Response variables: End
+
+        # If the stratum-specialattributes:2 header is set then we can trace the transaction in detail.
+        http-request set-var(req.partition_trace_enabled) req.hdr(stratum-specialattributes)
+
+        # Record where we came from if sending from one haproxy to another:
+        http-request set-var(req.proxy_origin) req.hdr(stratum-partition-origin)
+
+        # Assign a unique id to the transaction and add it to the request.
+        http-request set-var(req.uuid) uuid() if no_stratum_partition_uuid
+        # Only add the UUID header if it doesn't exist. It may already have been set by an upstream
+        # HAProxy which we must preserve.
+        http-request add-header stratum-partition-uuid %[var(req.uuid)] if no_stratum_partition_uuid
+
+        # Add the epoch timestamp (ms) to the request headers. Only add this header if
+        # it hasn't already been set by an upstream HAProxy.
+        http-request add-header stratum-ingress-start %[date(0,us)] if no_stratum_start
+
+        # Used to determine if requests should be routed only to the local partition.
+        http-request set-var(req.local_partition_only) str("true") if is_udsf or is_roaming or is_georegion_health_check or is_operational_status
+        http-request set-var(req.is_udsf) str("true") if is_udsf
+        http-request set-var(req.is_health_check) str("true") if is_georegion_health_check
+
+        # Request handler: Get the IMSI from the URL path, and store it in 'req.imsi'
+        http-request lua.get_imsi_from_url if has_imsi_in_url
+
+        # If we can't find the IMSI in the URL path, then we scan the entire request.
+        # Note that we check to see if we have already obtained the IMSI from the URL path first.
+        # If the request is a GET then we check the query parameters.
+        # If the request is a DELETE we check to see if the IMSI is in a base64 encoded part of the path.
+        # If the request if a POST then we check the request body.
+        http-request lua.scan_request_for_imsi if check_body_for_imsi
+
+        # Response handler
+        http-response lua.handle_response
+
+        # The Lua script will filter all requests.
+        # 1. Requests with an IMSI will be routed to the mapped partition.
+        # 2. If no mapping is found then the request is rejected.
+        # 3. Any request that doesn't contain an IMSI is sent to the local partition.
+        use_backend %[lua.select_partition]
+        # Stratum: End
+      config-global: |
+        lua-prepend-path /etc/opwv/?.lua
+        lua-load /etc/opwv/stratum.lua
+        tune.h2.max-concurrent-streams 1000
+        tune.h2.initial-window-size 1048576
+        tune.bufsize 131072
+        nbthread 1
+      health-check-interval: 1s
+      load-balance: leastconn
+      max-connections: "100000"
+      maxconn-server: "5000"
+      slots-min-free: "0"
+    defaultBackendService: haproxy-no-partition
+    extraVolumeMounts:
+    - mountPath: /etc/opwv
+      name: opwv-files
+    extraVolumes:
+    - configMap:
+        defaultMode: 420
+        name: opwv-haproxy-files
+      name: opwv-files
+    haproxy:
+      enabled: true
+      image:
+        repository: docker-registry.default.svc:5000/stratumcnf/haproxy
+        tag: 2.8.5
+      lifecycle:
+        preStop:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - sleep 10; kill -SIGUSR1 $(pidof haproxy)
+      resources:
+        limits:
+          cpu: 1
+          memory: 1Gi
+        requests:
+          cpu: 1
+          memory: 1Gi
+      securityContext:
+        runAsUser: 0
+    hostNetwork: true
+    image:
+      repository: docker-registry.default.svc:5000/stratumcnf/haproxy-ingress-image
+      tag: v0.14.5
+    ingressClassResource:
+      enabled: true
+    kind: DaemonSet
+    logs:
+      enabled: true
+      image:
+        repository: docker-registry.default.svc:5000/stratumcnf/kube-syslog-sidecar
+        tag: latest
+      resources:
+        limits:
+          cpu: 0.25
+          memory: 500Mi
+        requests:
+          cpu: 0.25
+          memory: 500Mi
+    metrics:
+      enabled: true
+    nodeSelector:
+      stratum-role: worker
+    pullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: 0.25
+        memory: 500Mi
+      requests:
+        cpu: 0.25
+        memory: 500Mi
+    service:
+      externalTrafficPolicy: Cluster
+      extraPorts:
+      - name: http-8001
+        port: 8001
+        protocol: TCP
+        targetPort: http
+      type: ClusterIP
+    serviceMonitor:
+      ctrlMetrics:
+        relabelings:
+        - replacement: cl1
+          targetLabel: cluster
+        - sourceLabels:
+          - __meta_kubernetes_pod_node_name
+          targetLabel: hostname
+      enabled: true
+      labels:
+        release: kube-prometheus-stack
+      metrics:
+        relabelings:
+        - replacement: cl1
+          targetLabel: cluster
+        - sourceLabels:
+          - __meta_kubernetes_pod_node_name
+          targetLabel: hostname
+    stats:
+      enabled: true
+  defaultBackend:
+    enabled: true
+    name: no-partition
+    replicaCount: 0
+  nameOverride: ""
+nrf_client:
+  nrfs:
+  - endpoints:
+    - http://107.121.214.148:80
+    geo_region: LAB1_NRF
+    name: lab1_nrf
+    profiles:
+    - udr_auk62e_lab1_nrf.json
+    - udsf_auk62e_lab1_nrf.json
+  profiles:
+  - json: |
+      {
+        "allowedNfTypes": [
+          "NEF",
+          "HSS",
+          "UDM",
+          "PCF",
+          "UDR"
+        ],
+        "fqdn": "zauk62ecudr01.udr.5gc.mnc180.mcc311.3gppnetwork.org",
+        "ipv4Addresses": [
+          "166.194.92.172"
+        ],
+        "nfInstanceId": "211ccea1-db6b-44c3-8838-e4da9d060cc2",
+        "locality": "auk62e",
+        "nfServices": [
+          {
+          "allowedNfTypes": [
+              "NEF",
+              "HSS",
+              "UDM",
+              "PCF",
+              "UDR"
+          ],
+          "fqdn": "zauk62ecudr01.udr.5gc.mnc180.mcc311.3gppnetwork.org",
+          "ipEndPoints": [
+              {
+                  "ipv4Address": "166.194.92.172",
+                  "port": 8001
+              }
+          ],
+          "nfServiceStatus": "REGISTERED",
+          "scheme": "http",
+          "serviceInstanceId": "211ccea1-db6b-44c3-8838-e4da9d060cc2",
+          "serviceName": "nudr-dr",
+          "versions": [
+              {
+                  "apiFullVersion": "2.0.0.alpha-1",
+                  "apiVersionInUri": "v2"
+              }
+          ]
+          }
+        ],
+        "nfStatus": "REGISTERED",
+        "nfType": "UDR",
+        "priority": 65535
+      }
+    name: udr_auk62e_lab1_nrf
+  - json: |
+      {
+        "fqdn": "zauk62ecudr01.udr.5gc.mnc180.mcc311.3gppnetwork.org",
+        "ipv4Addresses": [
+          "166.194.92.172"
+        ],
+        "nfInstanceId": "aa0d4004-dfec-43f0-b4f8-e47760188bf5",
+        "locality": "auk62e",
+        "nfServices": [
+          {
+          "fqdn": "zauk62ecudr01.udr.5gc.mnc180.mcc311.3gppnetwork.org",
+          "ipEndPoints": [
+              {
+                  "ipv4Address": "166.194.92.172",
+                  "port": 8001
+              }
+          ],
+          "nfServiceStatus": "REGISTERED",
+          "scheme": "http",
+          "serviceInstanceId": "aa0d4004-dfec-43f0-b4f8-e47760188bf5",
+          "serviceName": "nudsf-dr",
+          "versions": [
+              {
+                  "apiFullVersion": "1.0.0.alpha-1",
+                  "apiVersionInUri": "v1"
+              }
+          ]
+          }
+        ],
+        "nfStatus": "REGISTERED",
+        "nfType": "UDSF",
+        "priority": 65535
+      }
+    name: udsf_auk62e_lab1_nrf
+  stratum_client:
+    endpoint: http://166.194.92.172:8001
+    site: auk62e
+regions:
+  regionsToDeploy:
+  - r1
+tags:
+  deployCommon: false
+  deployEms01: false
+  deployEms02: false
+  deployHAProxy: false
+  deployNrfClient: false
+  deployPyTest: false
+  deployRegions: true
